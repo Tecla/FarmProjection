@@ -67,7 +67,7 @@ class Scenario:
 
     def getSub(self, pathArray, d, originalPath):
         if len(pathArray) == 0:
-            print("Empty path array found when processing path: {}".format(originalPath))
+            print("WARNING: Empty path array found when processing path: {}".format(originalPath))
             return None
         pathElem = pathArray[0]
         results = []
@@ -82,28 +82,28 @@ class Scenario:
                 elif isinstance(value, dict):
                     results += self.getSub(pathArray[1:], value, originalPath)
                 else:
-                    print("non-dict {} found in incomplete path: {}".format(key, originalPath))
+                    print("WARNING: Non-dict {} found in incomplete path: {}".format(key, originalPath))
         elif len(pathArray) == 1:
             if pathElem in d:
                 results += [ d[pathElem] ]
             else:
-                print("Path element {} not found in {}".format(pathElem, originalPath))
+                print("WARNING: Path element {} not found in {}".format(pathElem, originalPath))
         else:
             if pathElem in d:
                 nextElem = d[pathElem]
                 if isinstance(nextElem, dict):
                     results += self.getSub(pathArray[1:], nextElem, originalPath)
                 else:
-                    print("Path element {} is not a dictionary in {}".format(pathElement, originalPath))
+                    print("WARNING: Path element {} is not a dictionary in {}".format(pathElement, originalPath))
             else:
-                print("Path element {} not found in {}".format(pathElem, originalPath))
+                print("WARNING: Path element {} not found in {}".format(pathElem, originalPath))
         return results
 
-    def get(self, path, d=None):
+    def get(self, path, defaultValue=None):
         pathArray = path.split('/')
         results = self.getSub(pathArray, self.json, path)
         if not results:
-            return None
+            return defaultValue
         if '*' in path or len(results) > 1:
             return results
         return results[0]

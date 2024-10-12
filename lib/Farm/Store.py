@@ -58,10 +58,17 @@ def storeEmployeeExpectedPayRatePerHour(s):
 
 # Returns a tuple of (pay, overhead)
 def storeEmployeeExpectedPayPerYear(s):
+    ssTaxRate = s.get('taxes/SS')
+    mcTaxRate = s.get('taxes/Medicare')
+    ssLimit = s.get('taxes/SS limit')
+
     payRatePerHour = storeEmployeeExpectedPayRatePerHour(s)
     hoursPerYear = storeEmployeeHoursPerYear(s)
     incomePerYear = payRatePerHour * hoursPerYear
-    overheadPerYear = incomePerYear * (0.062 + 0.0145)
+    ficaIncome = min(incomePerYear, ssLimit)
+    taxes = incomePerYear * mcTaxRate # Employer portion, unlimited
+    taxes += ficaIncome * ssTaxRate   # Employer portion, stopped out at SS limit
+    overheadPerYear = taxes
     return (incomePerYear, overheadPerYear)
 
 

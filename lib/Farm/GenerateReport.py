@@ -189,7 +189,7 @@ def GenerateReport(scenario):
     totalNetIncome += storeNetIncomePerYear(s)
     root['Income']['Total profit'] = dollars(totalNetIncome)
 
-    netPayEstimate = netSelfPayPerYearEstimate(totalNetIncome)
+    netPayEstimate = netSelfPayPerYearEstimate(s, totalNetIncome)
     root['Income']['Self net yearly estimate'] = dollars(netPayEstimate)
     root['Income']['Self net monthly estimate'] = dollars(netPayEstimate / 12.0)
 

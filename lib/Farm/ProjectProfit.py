@@ -21,8 +21,40 @@ def netIncomeByAnimalPerYear(s, animal):
     income += creameryNetIncomeByAnimalPerYear(s, animal)
     return income
 
-def netSelfPayPerYearEstimate(netIncome):
-    return netIncome * (1.0 - 0.05 - 0.0145 * 1.5 - 0.1 - 0.22) - min(netIncome, 168600) * 0.062 * 1.5
+def netSelfPayPerYearEstimate(s, netIncome):
+    taxType = s.get('taxes/Tax situation')
+    ssTaxRate = s.get('taxes/SS')
+    mcTaxRate = s.get('taxes/Medicare')
+    ssLimit = s.get('taxes/SS limit')
+    seTaxBase = s.get('taxes/OASDI tax base')
+    stateTaxRate = s.get('taxes/State tax rate')
+
+    taxTable = []
+    taxDict = s.get('taxes/Tax table/{}'.format(taxType))
+    for taxRateStr, threshold in taxDict.items():
+        taxTable += [ (int(taxRateStr), threshold) ]
+    def applyTaxTable(income, table):
+        taxes = 0
+        incomeRemaining = income
+        lastThreshold = 0
+        for entry in table:
+            taxPct, threshold = entry
+            taxRate = taxPct * 0.01
+            if income >= threshold:
+                taxes += (min(income, threshold) - lastThreshold) * taxRate
+                lastThreshold = threshold
+            else:
+                break
+        return taxes
+
+    taxes = 0
+    taxes += applyTaxTable(netIncome, taxTable)
+    taxes += netIncome * stateTaxRate
+    taxBase = seTaxBase * netIncome
+    ficaIncome = min(taxBase, ssLimit)
+    taxes += taxBase * mcTaxRate * 2.0    # Both employee and employer portion
+    taxes += ficaIncome * ssTaxRate * 2.0 # Both employee and employer portion, stopped out a SS limit
+    return max(0.0, netIncome - taxes)
 
 
 def ProjectProfit(scenario):
@@ -71,5 +103,5 @@ def ProjectProfit(scenario):
     totalNetIncome += storeNetIncomePerYear(s)
     print('Total profit: {}'.format(dollars(totalNetIncome)))
 
-    netPayEstimate = netSelfPayPerYearEstimate(totalNetIncome)
+    netPayEstimate = netSelfPayPerYearEstimate(s, totalNetIncome)
     print('Self net estimate: {} (per month: {})'.format(dollars(netPayEstimate), dollars(netPayEstimate / 12.0)))
