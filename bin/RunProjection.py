@@ -30,13 +30,13 @@ if __name__ == "__main__":
         dataDir = os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), '..', 'data')
     else:
         dataDir = args.datadir
-    scenario = FarnyFarm.Scenario(os.path.join(dataDir, 'common'), os.path.join(dataDir, 'scenarios', args.scenario))
+    scenario = Farm.Scenario(os.path.join(dataDir, 'common'), os.path.join(dataDir, 'scenarios', args.scenario))
 
     if args.report and len(args.report) > 0 and (args.report_json or args.report_html):
-        report = FarnyFarm.GenerateReport(scenario)
+        report = Farm.GenerateReport(scenario)
         if args.report_json:
-            FarnyFarm.GenerateReportJson(report, args.report + '.json')
+            Farm.GenerateReportJson(report, args.report + '.json')
         if args.report_html:
-            FarnyFarm.GenerateReportHtml(report, args.report + '.html', args.scenario)
+            Farm.GenerateReportHtml(report, args.report + '.html', args.scenario)
 
     Farm.ProjectProfit(scenario)
