@@ -1,0 +1,113 @@
+{
+    "fixed": {
+        "vat cost": 20000,
+        "press cost": 1000,
+        "draining table cost": 4000,
+        "cave setup cost": 5000,
+        "molds cost": 1000,
+        "churner cost": 0
+    },
+    "yearly": {
+        "cultures cost": 600,
+        "tools and parts cost": 500,
+        "molds cost": 250,
+        "consumables cost": 100,
+        "sugar cost": 200,
+        "vanilla cost": 50
+    },
+
+    "cow": {
+        "cheese milk pct": 50,
+        "cheese yield lbs per gallon": 1.1,
+        "cheese price per lb": 20,
+        "cheese lbs per wheel": 5,
+
+        "butter milk pct": 0,
+        "butter yield lbs per gallon": 3,
+        "butter price per lb": 10,
+
+        "cream milk pct": 0,
+        "cream yield gallons per gallon": 1,
+        "cream price per gallon": 10,
+
+        "ice cream milk pct": 0,
+        "ice cream yield gallons per gallon": 2,
+        "ice cream price per gallon": 10,
+
+        "yogurt milk pct": 0,
+        "yogurt yield gallons per gallon": 0.9,
+        "yogurt price per gallon": 10
+    },
+    "ewe": {
+        "cheese milk pct": 75,
+        "cheese yield lbs per gallon": 1.9,
+        "cheese price per lb": 30,
+        "cheese lbs per wheel": 5,
+
+        "butter milk pct": 0,
+        "butter yield lbs per gallon": 3,
+        "butter price per lb": 10,
+
+        "cream milk pct": 0,
+        "cream yield gallons per gallon": 1,
+        "cream price per gallon": 10,
+
+        "ice cream milk pct": 0,
+        "ice cream yield gallons per gallon": 2,
+        "ice cream price per gallon": 20,
+
+        "yogurt milk pct": 0,
+        "yogurt yield gallons per gallon": 0.9,
+        "yogurt price per gallon": 10
+    },
+    "goat": {
+        "cheese milk pct": 50,
+        "cheese yield lbs per gallon": 1.1,
+        "cheese price per lb": 20,
+        "cheese lbs per wheel": 5,
+
+        "butter milk pct": 0,
+        "butter yield lbs per gallon": 3,
+        "butter price per lb": 10,
+
+        "cream milk pct": 0,
+        "cream yield gallons per gallon": 1,
+        "cream price per gallon": 10,
+
+        "ice cream milk pct": 0,
+        "ice cream yield gallons per gallon": 2,
+        "ice cream price per gallon": 20,
+
+        "yogurt milk pct": 0,
+        "yogurt yield gallons per gallon": 0.9,
+        "yogurt price per gallon": 10
+    },
+
+    "cheese yield loss pct": 10,
+    "vat size gal": 100,
+    "cheese session hours": 16,
+    "cheese self hours": 2,
+
+    "butter session gal": 10,
+    "butter session hours": 1,
+    "butter self hours": 0,
+
+    "cream session gal": 10,
+    "cream session hours": 1,
+    "cream self hours": 0,
+
+    "ice cream session gal": 10,
+    "ice cream session hours": 2,
+    "ice cream self hours": 2,
+
+    "yogurt session gal": 5,
+    "yogurt session hours": 2,
+    "yogurt self hours": 2,
+
+    "employee": {
+        "min pay per hour": 20,
+        "max pay per hour": 30
+    },
+
+    "creamery sqft": 400
+}

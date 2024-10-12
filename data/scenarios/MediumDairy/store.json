@@ -1,0 +1,17 @@
+{
+    "fixed": {
+        "refrigeration cost": 2000,
+        "truck cost": 40000
+    },
+    "yearly": {
+        "sales system cost": 1000,
+        "website and marketing cost": 1000
+    },
+    "open hours per week": 20,
+    "self hours per week": 12,
+    "employee": {
+        "min pay per hour": 15,
+        "max pay per hour": 25
+    },
+    "store area sqft": 625
+}

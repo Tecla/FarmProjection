@@ -1,0 +1,20 @@
+{
+    "cow": {
+        "existing females": 0,
+        "purchased females": 9,
+        "existing males": 0,
+        "purchased males": 0
+    },
+    "ewe": {
+        "existing females": 0,
+        "purchased females": 13,
+        "existing males": 1,
+        "purchased males": 0
+    },
+    "goat": {
+        "existing females": 0,
+        "purchased females": 0,
+        "existing males": 0,
+        "purchased males": 0
+    }
+}

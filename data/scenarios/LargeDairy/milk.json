@@ -1,0 +1,45 @@
+{
+    "fixed": {
+        "milker cost": 10000,
+        "holding tank cost": 8000,
+        "bottler cost": 3000
+    },
+    "yearly": {
+        "parts cost": 500,
+        "cleaner cost": 50
+    },
+    "per gallon": {
+        "jug cost": 1.0
+    },
+    "cow": {
+        "stands": 4,
+        "bottled pct": 50,
+        "sale price per gallon": 10,
+        "milkings per day": 2,
+        "milking minutes": 10,
+        "milking overhead minutes": 30,
+        "self time pct": 0
+    },
+    "ewe": {
+        "stands": 4,
+        "bottled pct": 25,
+        "sale price per gallon": 20,
+        "milkings per day": 2,
+        "milking minutes": 5,
+        "milking overhead minutes": 30,
+        "self time pct": 0
+    },
+    "goat": {
+        "stands": 0,
+        "bottled pct": 50,
+        "sale price per gallon": 10,
+        "milkings per day": 2,
+        "milking minutes": 5,
+        "milking overhead minutes": 30,
+        "self time pct": 0
+    },
+    "employee": {
+        "min pay per hour": 15,
+        "max pay per hour": 25
+    }
+}

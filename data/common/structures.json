@@ -1,0 +1,19 @@
+{
+    "barn": {
+        "cost per sqft": 50
+    },
+    "dairy": {
+        "cost per sqft": 75,
+        "milkhouse sqft": 400,
+        "bathroom sqft": 50
+    },
+    "creamery": {
+        "cost per sqft": 75
+    },
+    "store": {
+        "cost per sqft": 100,
+        "utility sqft": 80,
+        "office sqft": 80,
+        "bathroom sqft": 40
+    }
+}

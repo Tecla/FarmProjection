@@ -1,0 +1,74 @@
+{
+    "cow": {
+        "fixed": {
+        },
+        "yearly": {
+            "hay tons": 2.5,
+            "grain cost": 80,
+            "breeding cost": 50,
+            "misc cost": 50,
+            "offspring": 1
+        },
+        "acres": 1.75,
+        "amortization years": 5,
+        "barn sqft": 32,
+        "bedding depth inches": 12,
+        "bedding refreshes": 3,
+        "milk stand sqft": 72,
+        "peak gallons": 5,
+        "dry months": 3,
+        "offspring name": "calves",
+        "male name": "bulls",
+        "male purchase price": 1500,
+        "female purchase price": 2000,
+        "offspring price": 800
+    },
+    "ewe": {
+        "fixed": {
+        },
+        "yearly": {
+            "hay tons": 1,
+            "grain cost": 30,
+            "breeding cost": 50,
+            "misc cost": 25,
+            "offspring": 2
+        },
+        "acres": 0.25,
+        "amortization years": 5,
+        "barn sqft": 16,
+        "bedding depth inches": 8,
+        "bedding refreshes": 3,
+        "milk stand sqft": 40,
+        "peak gallons": 0.25,
+        "dry months": 4,
+        "offspring name": "lambs",
+        "male name": "rams",
+        "male purchase price": 500,
+        "female purchase price": 500,
+        "offspring price": 300
+    },
+    "goat": {
+        "fixed": {
+        },
+        "yearly": {
+            "hay tons": 1,
+            "grain cost": 30,
+            "breeding cost": 50,
+            "misc cost": 25,
+            "offspring": 2
+        },
+        "acres": 0.25,
+        "amortization years": 5,
+        "barn sqft": 16,
+        "bedding depth inches": 8,
+        "bedding refreshes": 3,
+        "milk stand sqft": 40,
+        "peak gallons": 0.75,
+        "dry months": 2.5,
+        "offspring name": "kids",
+        "male name": "bucks",
+        "male purchase price": 500,
+        "female purchase price": 500,
+        "offspring price": 250
+    }
+}

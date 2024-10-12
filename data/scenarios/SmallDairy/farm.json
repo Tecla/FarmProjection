@@ -1,0 +1,12 @@
+{
+    "fixed": {
+        "electric fence cost": 2000.0,
+        "posts cost": 500.0,
+        "charger cost": 1000.0,
+        "shelters cost": 10000.0
+    },
+    "yearly": {
+        "insurance cost": 3000
+    },
+    "years running": 0
+}

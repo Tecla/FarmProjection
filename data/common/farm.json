@@ -1,0 +1,13 @@
+{
+    "pasture": {
+        "months": 8
+    },
+    "feed": {
+        "premium hay cost per ton": 200,
+        "cheap hay cost per small bale": 4
+    },
+    "facility cost split methods": [ "animal cost", "animal space" ],
+    "facility cost split method": "animal space",
+    "amortization years": 10,
+    "animals": [ "cow", "ewe", "goat" ]
+}
