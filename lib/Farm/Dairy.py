@@ -3,14 +3,20 @@
 from .Livestock import *
 
 
-# TODO: add estimated milk losses
-
-
-def milkGallonsPerDay(s, animal):
+def milkGallonsLostPerYear(s, animal):
+    yieldLossProportion = s.get('milk/milk yield loss pct') * 0.01
     adultFemales = livestockAdultFemales(s, animal)
     peakGallons = s.get('livestock/{}/peak gallons'.format(animal))
     dryMonths = s.get('livestock/{}/dry months'.format(animal))
-    return adultFemales * peakGallons * (1.0 - dryMonths / 12.0) * 0.5
+    return adultFemales * peakGallons * (1.0 - dryMonths / 12.0) * 0.5 * yieldLossProportion * 365.0
+
+
+def milkGallonsPerDay(s, animal):
+    yieldLossProportion = s.get('milk/milk yield loss pct') * 0.01
+    adultFemales = livestockAdultFemales(s, animal)
+    peakGallons = s.get('livestock/{}/peak gallons'.format(animal))
+    dryMonths = s.get('livestock/{}/dry months'.format(animal))
+    return adultFemales * peakGallons * (1.0 - dryMonths / 12.0) * 0.5 * (1.0 - yieldLossProportion)
 
 
 def milkGallonsSoldPerWeek(s, animal):
@@ -27,14 +33,14 @@ def milkSalesPerYear(s, animal):
 def dairyFacilitySqft(s):
     milkhouseSqft = s.get('structures/dairy/milkhouse sqft')
     bathroomSqft = s.get('structures/dairy/bathroom sqft')
+    overheadSqft = s.get('structures/dairy/overhead sqft')
     parlorSqft = 0
     animals = livestockList(s)
     for animal in animals:
         stands = s.get('milk/{}/stands'.format(animal))
         standSqft = s.get('livestock/{}/milk stand sqft'.format(animal))
         parlorSqft += stands * standSqft
-    # 10% extra space for walkways/etc
-    return (milkhouseSqft + bathroomSqft + parlorSqft) * 1.1
+    return milkhouseSqft + bathroomSqft + parlorSqft + overheadSqft
 
 
 def dairyFacilityCost(s):
@@ -167,7 +173,6 @@ def milkCostPerCWT(s, animal):
     gallonsSoldPerYear = milkGallonsSoldPerWeek(s, animal) * (365.0 / 7.0)
     bottledProportion = s.get('milk/{}/bottled pct'.format(animal)) * 0.01
 
-    # TODO: account for livestock employees in the model
     totalAnimalCost = (livestockCost + livestockCommonCost * livestockCommonCostProportion(s, animal)) * bottledProportion
     totalAnimalCost += milkCost + (milkCommonCost + employeeCost + employeeOverhead) * dairyCommonCostProportion(s, animal) * bottledProportion
     return totalAnimalCost * 100.0 / (gallonsSoldPerYear * gallonWeightLbs) if gallonsSoldPerYear > 0 else 0.0
@@ -195,7 +200,7 @@ def milkProfitPerGallon(s, animal):
 def dairyNetIncome(s, animal):
     income = milkIncomeByAnimalPerYear(s, animal)
     employeeCost, employeeOverhead = dairyEmployeeExpectedPayPerYear(s)
-    # Only attribute portion of milk employee cost to (time milking this animal)/(total milking time)
+    # Only attribute portion of dairy employee cost to (time milking this animal)/(total milking time)
     bottledProportion = s.get('milk/{}/bottled pct'.format(animal)) * 0.01
     employeePartCost = (employeeCost + employeeOverhead) * dairyCommonCostProportion(s, animal) * bottledProportion
     return income - employeePartCost

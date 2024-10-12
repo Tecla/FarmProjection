@@ -41,5 +41,6 @@
     "employee": {
         "min pay per hour": 15,
         "max pay per hour": 20
-    }
+    },
+    "milk yield loss pct": 5
 }

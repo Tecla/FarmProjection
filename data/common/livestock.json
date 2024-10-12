@@ -21,7 +21,12 @@
         "male name": "bulls",
         "male purchase price": 1500,
         "female purchase price": 2000,
-        "offspring price": 800
+        "offspring price": 800,
+
+        "__comments__": [
+            "These numbers are based on premium jersey dairy cows, bred once per year, with 2-3 dry months between cycles.",
+            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation."
+        ]
     },
     "ewe": {
         "fixed": {
@@ -45,7 +50,12 @@
         "male name": "rams",
         "male purchase price": 500,
         "female purchase price": 500,
-        "offspring price": 300
+        "offspring price": 300,
+
+        "__comments__": [
+            "These numbers are based on Katadin or crossed hair sheep, bred twice per year, 4 months in milk 2 months off each cycle.",
+            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation."
+        ]
     },
     "goat": {
         "fixed": {
@@ -69,6 +79,11 @@
         "male name": "bucks",
         "male purchase price": 500,
         "female purchase price": 500,
-        "offspring price": 250
+        "offspring price": 250,
+
+        "__comments__": [
+            "These numbers are based on Nigerian dwarf goats, bred twice per year, 4 months in milk 2 months off each cycle.",
+            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation."
+        ]
     }
 }

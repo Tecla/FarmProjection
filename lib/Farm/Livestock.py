@@ -1,5 +1,8 @@
 # This Python file uses the following encoding: utf-8
 
+from .Utilities import *
+
+
 def neededAcresByAnimal(s, animal):
     existingFemales = s.get('livestock/{}/existing females'.format(animal))
     purchasedFemales = s.get('livestock/{}/purchased females'.format(animal))
@@ -11,14 +14,15 @@ def neededAcresByAnimal(s, animal):
 
 
 def neededAcres(s):
-    existingFemales = s.get('livestock/*/existing females')
-    purchasedFemales = s.get('livestock/*/purchased females')
-    existingMales = s.get('livestock/*/existing males')
-    purchasedMales = s.get('livestock/*/purchased males')
-    acresPerHead = s.get('livestock/*/acres')
     acresTotal = 0.0
-    for existingF, purchasedF, existingM, purchasedM, acres in zip(existingFemales, purchasedFemales, existingMales, purchasedMales, acresPerHead):
-        acresTotal += (existingF + purchasedF + existingM + purchasedM) * float(acres)
+    animals = livestockList(s)
+    for animal in animals:
+        existingFemales = s.get('livestock/{}/existing females'.format(animal))
+        purchasedFemales = s.get('livestock/{}/purchased females'.format(animal))
+        existingMales = s.get('livestock/{}/existing males'.format(animal))
+        purchasedMales = s.get('livestock/{}/purchased males'.format(animal))
+        acresPerHead = s.get('livestock/{}/acres'.format(animal))
+        acresTotal += (existingFemales + purchasedFemales + existingMales + purchasedMales) * float(acresPerHead)
     return acresTotal
 
 
@@ -106,6 +110,7 @@ def livestockSalesPerYear(s, animal):
 
 
 def barnSqft(s):
+    overheadProportion = s.get('structures/barn/overhead sqft pct') * 0.01 # Extra space for alleys, etc
     animals = livestockList(s)
     totalSqft = 0
     for animal in animals:
@@ -113,8 +118,7 @@ def barnSqft(s):
         count = livestockTotal(s, animal)
         barnSqft = s.get('livestock/{}/barn sqft'.format(animal))
         totalSqft += count * barnSqft
-    # 20% extra space for alleys, etc
-    return totalSqft * 1.2
+    return totalSqft * (1.0 + overheadProportion)
 
 
 def barnCost(s):
@@ -146,12 +150,16 @@ def livestockIncomePerYear(s, animal):
 
 
 def livestockNetIncomePerYear(s, animal):
-    # TODO: account for livestock employees?
-    return livestockIncomePerYear(s, animal)
+    income = livestockIncomePerYear(s, animal)
+    employeeCost, employeeOverhead = livestockEmployeeExpectedPayPerYear(s)
+    # Only attribute portion of employee cost to (time dealing with this animal)/(total time for all animals)
+    employeePartCost = (employeeCost + employeeOverhead) * livestockCommonCostProportion(s, animal, 'animal time')
+    return income - employeePartCost
 
 
-def livestockCommonCostProportion(s, animal):
-    method = s.get('farm/facility cost split method')
+def livestockCommonCostProportion(s, animal, method=None):
+    if not method:
+        method = s.get('farm/facility cost split method')
     if method == 'animal cost':
         animalCost = 0
         totalCost = 0
@@ -165,6 +173,12 @@ def livestockCommonCostProportion(s, animal):
         animalSpace = neededAcresByAnimal(s, animal)
         totalSpace = neededAcres(s)
         return animalSpace / totalSpace if totalSpace > 0 else 0.0
+    elif method == 'animal time':
+        animalTime = s.get('livestock/{}/hours per week'.format(animal))
+        totalTime = 0.0
+        for a in livestockList(s):
+            totalTime += s.get('livestock/{}/hours per week'.format(a))
+        return animalTime / totalTime if totalTime > 0 else 0.0
     else:
         print("Unkown livestock common cost method: {}".format(method))
         return 0.0
@@ -173,3 +187,58 @@ def livestockCommonCostProportion(s, animal):
 def livestockList(s):
     animals = s.get('farm/animals')
     return animals
+
+
+def livestockHoursPerYear(s, animal):
+    animalHoursPerYear = s.get('livestock/{}/hours per week'.format(animal)) * (365.0 / 7.0)
+    return animalHoursPerYear
+
+
+def livestockHoursPerWeek(s, animal):
+    return s.get('livestock/{}/hours per week'.format(animal))
+
+
+def livestockHoursPerDay(s, animal):
+    return livestockHoursPerYear(s, animal) / 365.0
+
+
+def livestockEmployeeHoursPerYear(s, animal):
+    animalHoursPerYear = s.get('livestock/{}/hours per week'.format(animal)) * (365.0 / 7.0)
+    selfHoursPerYear = s.get('livestock/{}/self hours per week'.format(animal)) * (365.0 / 7.0)
+    return max(0.0, animalHoursPerYear - selfHoursPerYear)
+
+
+def livestockEmployeeHoursPerWeek(s, animal):
+    animalHoursPerWeek = s.get('livestock/{}/hours per week'.format(animal))
+    selfHoursPerWeek = s.get('livestock/{}/self hours per week'.format(animal))
+    return max(0.0, animalHoursPerWeek - selfHoursPerWeek)
+
+
+def livestockEmployeeHoursPerDay(s, animal):
+    return livestockEmployeeHoursPerYear(s, animal) / 365.0
+
+
+def livestockEmployeeExpectedPayRatePerHour(s):
+    minPayRate = s.get('livestock/employee/min pay per hour')
+    maxPayRate = s.get('livestock/employee/max pay per hour')
+    totalHoursPerYear = 0
+    totalIncomePerYear = 0
+    animals = livestockList(s)
+    for animal in animals:
+        totalHoursPerYear += livestockEmployeeHoursPerYear(s, animal)
+        totalIncomePerYear += livestockIncomePerYear(s, animal)
+    if totalHoursPerYear <= 0:
+        return minPayRate
+    return min(maxPayRate, max(minPayRate, totalIncomePerYear / totalHoursPerYear))
+
+
+# Returns a tuple of (pay, overhead)
+def livestockEmployeeExpectedPayPerYear(s):
+    payRatePerHour = livestockEmployeeExpectedPayRatePerHour(s)
+    totalHoursPerYear = 0
+    animals = livestockList(s)
+    for animal in animals:
+        totalHoursPerYear += livestockEmployeeHoursPerYear(s, animal)
+    incomePerYear = payRatePerHour * totalHoursPerYear
+    overheadPerYear = incomeOverhead(s, incomePerYear)
+    return (incomePerYear, overheadPerYear)

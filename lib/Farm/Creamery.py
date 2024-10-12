@@ -2,6 +2,7 @@
 
 from .Livestock import *
 from .Dairy import *
+from .Utilities import *
 
 
 #
@@ -228,8 +229,9 @@ def yogurtHoursByAnimalPerYear(s, animal):
 
 def creameryFacilitySqft(s):
     creameryArea = s.get('creamery/creamery sqft')
+    overheadArea = s.get('structures/creamery/overhead sqft')
     caveArea = cheeseCaveSqft(s)
-    return creameryArea + caveArea
+    return creameryArea + caveArea + overheadArea
 
 
 def creameryFacilityCost(s):
@@ -357,7 +359,7 @@ def creameryEmployeeExpectedPayPerYear(s):
     for animal in animals:
         totalHoursPerYear += creameryEmployeeHoursByAnimalPerYear(s, animal)
     incomePerYear = payRatePerHour * totalHoursPerYear
-    overheadPerYear = incomePerYear * (0.062 + 0.0145)
+    overheadPerYear = incomeOverhead(s, incomePerYear)
     return (incomePerYear, overheadPerYear)
 
 
@@ -379,7 +381,6 @@ def cheeseCostPerCWT(s, animal):
     gallons += yogurtMilkGallonsUsedByAnimalPerYear(s, animal)
     cheeseOnlyProportion = cheeseGallonsUsedByAnimalPerYear(s, animal) / gallons if gallons > 0 else 0.0
 
-    # TODO: account for livestock employees in the model
     totalAnimalCost = (livestockCost + livestockCommonCost * livestockCommonCostProportion(s, animal)) * cheesedProportion
     totalAnimalCost += (milkCommonCost + dairyEmployeeCost + dairyEmployeeOverhead) * dairyCommonCostProportion(s, animal) * cheesedProportion
     totalAnimalCost += (creameryCommonCost + creameryEmployeeCost + creameryEmployeeOverhead) * creameryCommonCostProportion(s, animal) * cheeseOnlyProportion

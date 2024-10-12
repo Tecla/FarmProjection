@@ -3,18 +3,28 @@
         "existing females": 18,
         "purchased females": 1,
         "existing males": 1,
-        "purchased males": 0
+        "purchased males": 0,
+        "hours per week": 4,
+        "self hours per week": 4
     },
     "ewe": {
         "existing females": 15,
         "purchased females": 1,
         "existing males": 1,
-        "purchased males": 0
+        "purchased males": 0,
+        "hours per week": 4,
+        "self hours per week": 4
     },
     "goat": {
         "existing females": 0,
         "purchased females": 0,
         "existing males": 0,
-        "purchased males": 0
+        "purchased males": 0,
+        "hours per week": 0,
+        "self hours per week": 0
+    },
+    "employee": {
+        "min pay per hour": 15,
+        "max pay per hour": 25
     }
 }

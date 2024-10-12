@@ -6,8 +6,13 @@
         "premium hay cost per ton": 200,
         "cheap hay cost per small bale": 4
     },
-    "facility cost split methods": [ "animal cost", "animal space" ],
+    "facility cost split methods": [ "animal cost", "animal space", "animal time" ],
     "facility cost split method": "animal space",
     "amortization years": 10,
-    "animals": [ "cow", "ewe", "goat" ]
+    "animals": [ "cow", "ewe", "goat" ],
+
+    "__comments__": [
+        "These numbers are based on Utah hay prices and typical months on pasture.",
+        "The fixed costs are spread out as 1.0/amortization years. Set the scenario years running input to higher than the amortization years to see the fixed costs drop off."
+    ]
 }

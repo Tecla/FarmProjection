@@ -2,6 +2,7 @@
 
 from .Livestock import *
 from .Dairy import *
+from .Utilities import *
 
 
 def storeFacilitySqft(s):
@@ -9,8 +10,8 @@ def storeFacilitySqft(s):
     utilityArea = s.get('structures/store/utility sqft')
     officeArea = s.get('structures/store/office sqft')
     bathroomArea = s.get('structures/store/bathroom sqft')
-    # 10% overhead for hallways, etc
-    return (storeArea + utilityArea + officeArea + bathroomArea) * 1.1
+    overheadArea = s.get('structures/store/overhead sqft')
+    return storeArea + utilityArea + officeArea + bathroomArea + overheadArea
 
 
 def storeFacilityCost(s):
@@ -65,10 +66,7 @@ def storeEmployeeExpectedPayPerYear(s):
     payRatePerHour = storeEmployeeExpectedPayRatePerHour(s)
     hoursPerYear = storeEmployeeHoursPerYear(s)
     incomePerYear = payRatePerHour * hoursPerYear
-    ficaIncome = min(incomePerYear, ssLimit)
-    taxes = incomePerYear * mcTaxRate # Employer portion, unlimited
-    taxes += ficaIncome * ssTaxRate   # Employer portion, stopped out at SS limit
-    overheadPerYear = taxes
+    overheadPerYear = incomeOverhead(s, incomePerYear)
     return (incomePerYear, overheadPerYear)
 
 

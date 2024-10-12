@@ -50,6 +50,12 @@ def GenerateReport(scenario):
         root['Livestock'][a]['Sales of {}s'.format(a)] = dollars(livestockSalesPerYear(s, a))
         root['Livestock'][a]['Income per year'] = dollars(livestockIncomePerYear(s, a))
         root['Livestock'][a]['Net income per year'] = dollars(livestockNetIncomePerYear(s, a))
+        root['Livestock'][a]['Work hours per year'] = rounded(livestockHoursPerYear(s, a), 2)
+        root['Livestock'][a]['Work hours per week'] = rounded(livestockHoursPerWeek(s, a), 2)
+        root['Livestock'][a]['Work hours per day'] = rounded(livestockHoursPerDay(s, a), 2)
+        root['Livestock'][a]['Employee hours per year'] = rounded(livestockEmployeeHoursPerYear(s, a), 0)
+        root['Livestock'][a]['Employee hours per week'] = rounded(livestockEmployeeHoursPerWeek(s, a), 2)
+        root['Livestock'][a]['Employee hours per day'] = rounded(livestockEmployeeHoursPerDay(s, a), 2)
 
     # Dairy report
     root['Dairy']['Building cost'] = dollars(dairyFacilityCost(s))
@@ -60,6 +66,7 @@ def GenerateReport(scenario):
         root['Dairy'][a]['Gallons per day'] = rounded(milkGallonsPerDay(s, a), 4)
         root['Dairy'][a]['Gallons sold per week'] = rounded(milkGallonsSoldPerWeek(s, a), 2)
         root['Dairy'][a]['Milk sales per year'] = dollars(milkSalesPerYear(s, a))
+        root['Dairy'][a]['Gallons lost per year'] = rounded(milkGallonsLostPerYear(s, a), 2)
         root['Dairy'][a]['Cost per year'] = dollars(milkCostByAnimalPerYear(s, a))
         root['Dairy'][a]['Cost per CWT'] = dollars(milkCostPerCWT(s, a))
         root['Dairy'][a]['Cost per gallon'] = dollars(milkCostPerGallon(s, a))
@@ -129,15 +136,31 @@ def GenerateReport(scenario):
     root['Store']['Employee hours per week'] = rounded(storeEmployeeHoursPerWeek(s), 2)
 
     # Employees report
+    livestockEmployeeYearlyPay, livestockEmployeeYearlyOverhead = livestockEmployeeExpectedPayPerYear(s)
     dairyEmployeeYearlyPay, dairyEmployeeYearlyOverhead = dairyEmployeeExpectedPayPerYear(s)
     creameryEmployeeYearlyPay, creameryEmployeeYearlyOverhead = creameryEmployeeExpectedPayPerYear(s)
     storeEmployeeYearlyPay, storeEmployeeYearlyOverhead = storeEmployeeExpectedPayPerYear(s)
+    livestockEmployeeHourlyPay = livestockEmployeeExpectedPayRatePerHour(s)
     dairyEmployeeHourlyPay = dairyEmployeeExpectedPayRatePerHour(s)
     creameryEmployeeHourlyPay = creameryEmployeeExpectedPayRatePerHour(s)
     storeEmployeeHourlyPay = storeEmployeeExpectedPayRatePerHour(s)
+    root['Employees']['Livestock'] = {}
     root['Employees']['Dairy'] = {}
     root['Employees']['Creamery'] = {}
     root['Employees']['Store'] = {}
+    root['Employees']['Livestock']['Yearly pay'] = dollars(livestockEmployeeYearlyPay)
+    root['Employees']['Livestock']['Yearly overhead'] = dollars(livestockEmployeeYearlyOverhead)
+    root['Employees']['Livestock']['Hourly pay'] = dollars(livestockEmployeeHourlyPay)
+    totalHoursPerYear = 0.0
+    totalHoursPerWeek = 0.0
+    totalHoursPerDay = 0.0
+    for a in animals:
+        totalHoursPerYear += livestockEmployeeHoursPerYear(s, a)
+        totalHoursPerWeek += livestockEmployeeHoursPerWeek(s, a)
+        totalHoursPerDay += livestockEmployeeHoursPerDay(s, a)
+    root['Employees']['Livestock']['Hours per year'] = rounded(totalHoursPerYear, 0)
+    root['Employees']['Livestock']['Hours per week'] = rounded(totalHoursPerWeek, 2)
+    root['Employees']['Livestock']['Hours per day'] = rounded(totalHoursPerDay, 4)
     root['Employees']['Dairy']['Yearly pay'] = dollars(dairyEmployeeYearlyPay)
     root['Employees']['Dairy']['Yearly overhead'] = dollars(dairyEmployeeYearlyOverhead)
     root['Employees']['Dairy']['Hourly pay'] = dollars(dairyEmployeeHourlyPay)

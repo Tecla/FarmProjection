@@ -34,5 +34,9 @@
             "35": 609350,
             "37": 999999999
         }
-    }
+    },
+
+    "__comments__": [
+        "These are from the 2024 IRS tax information. The two items to change for your situation are the state tax rate, and which tax situation applies."
+    ]
 }

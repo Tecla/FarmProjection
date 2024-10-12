@@ -7,3 +7,12 @@ def dollars(value):
 def rounded(value, places):
     formatStr = "{}:.{}f{}".format('{', places, '}')
     return formatStr.format(float(value))
+
+def incomeOverhead(s, incomePerYear):
+    ssTaxRate = s.get('taxes/SS')
+    mcTaxRate = s.get('taxes/Medicare')
+    ssLimit = s.get('taxes/SS limit')
+    ficaIncome = min(incomePerYear, ssLimit)
+    taxes = incomePerYear * mcTaxRate # Employer portion, unlimited
+    taxes += ficaIncome * ssTaxRate   # Employer portion, stopped out at SS limit
+    return taxes
