@@ -11,6 +11,9 @@ def mergeDict(a: dict, b: dict, dictionaryPath = []):
         if key in a:
             if isinstance(a[key], dict) and isinstance(b[key], dict):
                 mergeDict(a[key], b[key], dictionaryPath + [ str(key) ])
+            elif isinstance(a[key], list) and isinstance(b[key], list):
+                # Concatenate arrays with the same key
+                a[key] += b[key]
             elif a[key] != b[key]:
                 raise Exception('Dictionary merge conflict at ' + '.'.join(dictionaryPath + [ str(key) ]))
         else:

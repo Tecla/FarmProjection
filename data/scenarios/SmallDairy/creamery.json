@@ -1,4 +1,7 @@
 {
+    "__comments__": [
+        "You may add fixed or yearly costs in each category simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
+    ],
     "fixed": {
         "vat cost": 10000,
         "press cost": 1000,

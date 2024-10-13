@@ -1,4 +1,7 @@
 {
+    "__comments__": [
+        "You may add costs in each category simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
+    ],
     "fixed": {
         "milker cost": 5000,
         "holding tank cost": 3000,
@@ -11,6 +14,7 @@
     "per gallon": {
         "jug cost": 1.0
     },
+
     "cow": {
         "stands": 2,
         "bottled pct": 60,
@@ -38,9 +42,11 @@
         "milking overhead minutes": 30,
         "self time pct": 0
     },
+
     "employee": {
         "min pay per hour": 15,
         "max pay per hour": 20
     },
+
     "milk yield loss pct": 5
 }

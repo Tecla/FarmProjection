@@ -25,7 +25,8 @@
 
         "__comments__": [
             "These numbers are based on premium jersey dairy cows, bred once per year, with 2-3 dry months between cycles.",
-            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation."
+            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation.",
+            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
         ]
     },
     "ewe": {
@@ -54,7 +55,8 @@
 
         "__comments__": [
             "These numbers are based on Katadin or crossed hair sheep, bred twice per year, 4 months in milk 2 months off each cycle.",
-            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation."
+            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation.",
+            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
         ]
     },
     "goat": {
@@ -83,7 +85,8 @@
 
         "__comments__": [
             "These numbers are based on Nigerian dwarf goats, bred twice per year, 4 months in milk 2 months off each cycle.",
-            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation."
+            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation.",
+            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
         ]
     }
 }

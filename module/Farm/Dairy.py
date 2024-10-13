@@ -50,8 +50,11 @@ def dairyFacilityCost(s):
 
 def milkCostByAnimalPerYear(s, animal):
     milkGallonsPerYear = milkGallonsSoldPerWeek(s, animal) * (365.0/7.0)
-    jugCost = s.get('milk/per gallon/jug cost')
-    return milkGallonsPerYear * jugCost
+    cost = 0.0
+    perGallonCosts = s.get('milk/per gallon/* cost')
+    for c in perGallonCosts:
+        cost += c
+    return milkGallonsPerYear * cost
 
 
 def milkCommonCostPerYear(s):
