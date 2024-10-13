@@ -52,8 +52,9 @@ def milkCostByAnimalPerYear(s, animal):
     milkGallonsPerYear = milkGallonsSoldPerWeek(s, animal) * (365.0/7.0)
     cost = 0.0
     perGallonCosts = s.get('milk/per gallon/* cost')
-    for c in perGallonCosts:
-        cost += c
+    if perGallonCosts:
+        for c in perGallonCosts:
+            cost += c
     return milkGallonsPerYear * cost
 
 
@@ -61,15 +62,17 @@ def milkCommonCostPerYear(s):
     amortizationYears = s.get('farm/amortization years')
     fixedAmortizationActive = True if s.get('farm/years running') <= amortizationYears else False
 
-    cost = 0
+    cost = 0.0
     if fixedAmortizationActive:
         fixedCosts = s.get('milk/fixed/* cost')
-        for c in fixedCosts:
-            cost += c / float(amortizationYears)
-        cost += dairyFacilityCost(s) / float(amortizationYears)
+        if fixedCosts:
+            for c in fixedCosts:
+                cost += c / float(amortizationYears) if amortizationYears > 0 else 0.0
+        cost += dairyFacilityCost(s) / float(amortizationYears) if amortizationYears > 0 else 0.0
     yearlyCosts = s.get('milk/yearly/* cost')
-    for c in yearlyCosts:
-        cost += c
+    if yearlyCosts:
+        for c in yearlyCosts:
+            cost += c
     return cost
 
 

@@ -67,8 +67,9 @@ def livestockCostPerYear(s, animal):
     if yearlyCosts is not None:
         for yearlyCost in yearlyCosts:
             cost += yearlyCost * headAmount
-    cost += femalePurchased * femalePurchasePrice / amortizationYears
-    cost += malePurchased * malePurchasePrice / amortizationYears
+    if amortizationYears > 0:
+        cost += femalePurchased * femalePurchasePrice / amortizationYears
+        cost += malePurchased * malePurchasePrice / amortizationYears
     cost += (livestockBeddingCost(s, animal) + livestockHayCost(s, animal)) * headAmount
 
     return cost
@@ -130,12 +131,12 @@ def livestockCommonCostPerYear(s):
     amortizationYears = s.get('farm/amortization years')
     fixedAmortizationActive = True if s.get('farm/years running') <= amortizationYears else False
 
-    cost = 0
+    cost = 0.0
     if fixedAmortizationActive:
         fixedCosts = s.get('farm/fixed/* cost')
         for c in fixedCosts:
-            cost += c / float(amortizationYears)
-        cost += barnCost(s) / float(amortizationYears)
+            cost += c / float(amortizationYears) if amortizationYears > 0 else 0.0
+        cost += barnCost(s) / float(amortizationYears) if amortizationYears > 0 else 0.0
     yearlyCosts = s.get('farm/yearly/* cost')
     for c in yearlyCosts:
         cost += c

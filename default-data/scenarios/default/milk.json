@@ -1,0 +1,46 @@
+{
+    "__comments__": [
+        "You may add costs in each category simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
+    ],
+    "fixed": {
+    },
+    "yearly": {
+    },
+    "per gallon": {
+    },
+
+    "cow": {
+        "stands": 0,
+        "bottled pct": 0,
+        "sale price per gallon": 0,
+        "milkings per day": 0,
+        "milking minutes": 0,
+        "milking overhead minutes": 0,
+        "self time pct": 0
+    },
+    "ewe": {
+        "stands": 0,
+        "bottled pct": 0,
+        "sale price per gallon": 0,
+        "milkings per day": 0,
+        "milking minutes": 0,
+        "milking overhead minutes": 0,
+        "self time pct": 0
+    },
+    "goat": {
+        "stands": 0,
+        "bottled pct": 0,
+        "sale price per gallon": 0,
+        "milkings per day": 0,
+        "milking minutes": 0,
+        "milking overhead minutes": 0,
+        "self time pct": 0
+    },
+
+    "employee": {
+        "min pay per hour": 0,
+        "max pay per hour": 0
+    },
+
+    "milk yield loss pct": 0
+}

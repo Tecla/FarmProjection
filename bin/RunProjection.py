@@ -31,7 +31,9 @@ if __name__ == "__main__":
         dataDir = os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), '..', 'data')
     else:
         dataDir = args.datadir
-    scenario = Farm.Scenario(os.path.join(dataDir, 'common'), os.path.join(dataDir, 'scenarios', args.scenario))
+    defaultDataDir = os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), '..', 'default-data')
+    defaultScenario = Farm.Scenario(os.path.join(defaultDataDir, 'common'), os.path.join(defaultDataDir, 'scenarios', 'default'))
+    scenario = Farm.Scenario(os.path.join(dataDir, 'common'), os.path.join(dataDir, 'scenarios', args.scenario), defaultScenario)
 
     if args.report and len(args.report) > 0 and (args.report_json or args.report_html):
         report = Farm.GenerateReport(scenario)

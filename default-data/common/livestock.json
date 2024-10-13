@@ -1,0 +1,80 @@
+{
+    "cow": {
+        "fixed": {
+        },
+        "yearly": {
+            "hay tons": 0.0,
+            "offspring": 0
+        },
+        "acres": 0.0,
+        "amortization years": 0,
+        "barn sqft": 0,
+        "bedding depth inches": 0,
+        "bedding refreshes": 0,
+        "milk stand sqft": 0,
+        "peak gallons": 0,
+        "dry months": 0,
+        "offspring name": "calves",
+        "male name": "bulls",
+        "male purchase price": 0,
+        "female purchase price": 0,
+        "offspring price": 0,
+
+        "__comments__": [
+            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation.",
+            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
+        ]
+    },
+    "ewe": {
+        "fixed": {
+        },
+        "yearly": {
+            "hay tons": 0.0,
+            "offspring": 0
+        },
+        "acres": 0.0,
+        "amortization years": 0,
+        "barn sqft": 0,
+        "bedding depth inches": 0,
+        "bedding refreshes": 0,
+        "milk stand sqft": 0,
+        "peak gallons": 0.0,
+        "dry months": 0,
+        "offspring name": "lambs",
+        "male name": "rams",
+        "male purchase price": 0,
+        "female purchase price": 0,
+        "offspring price": 0,
+
+        "__comments__": [
+            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation.",
+            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
+        ]
+    },
+    "goat": {
+        "fixed": {
+        },
+        "yearly": {
+            "hay tons": 0.0,
+            "offspring": 0
+        },
+        "acres": 0.0,
+        "amortization years": 0,
+        "barn sqft": 0,
+        "bedding depth inches": 0,
+        "bedding refreshes": 0,
+        "milk stand sqft": 0,
+        "peak gallons": 0.0,
+        "dry months": 0,
+        "offspring name": "kids",
+        "male name": "bucks",
+        "male purchase price": 0,
+        "female purchase price": 0,
+        "offspring price": 0,
+
+        "__comments__": [
+            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation.",
+            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
+        ]
+    }
+}

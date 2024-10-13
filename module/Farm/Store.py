@@ -23,15 +23,17 @@ def storeCommonCostPerYear(s):
     amortizationYears = s.get('farm/amortization years')
     fixedAmortizationActive = True if s.get('farm/years running') <= amortizationYears else False
 
-    cost = 0
+    cost = 0.0
     if fixedAmortizationActive:
         fixedCosts = s.get('store/fixed/* cost')
-        for c in fixedCosts:
-            cost += c / float(amortizationYears)
-        cost += storeFacilityCost(s) / float(amortizationYears)
+        if fixedCosts:
+            for c in fixedCosts:
+                cost += c / float(amortizationYears) if amortizationYears > 0 else 0.0
+        cost += storeFacilityCost(s) / float(amortizationYears) if amortizationYears > 0 else 0.0
     yearlyCosts = s.get('store/yearly/* cost')
-    for c in yearlyCosts:
-        cost += c
+    if yearlyCosts:
+        for c in yearlyCosts:
+            cost += c
     return cost
 
 

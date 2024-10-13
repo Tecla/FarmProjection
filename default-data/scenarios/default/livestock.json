@@ -1,0 +1,30 @@
+{
+    "cow": {
+        "existing females": 0,
+        "purchased females": 0,
+        "existing males": 0,
+        "purchased males": 0,
+        "hours per week": 0,
+        "self hours per week": 0
+    },
+    "ewe": {
+        "existing females": 0,
+        "purchased females": 0,
+        "existing males": 0,
+        "purchased males": 0,
+        "hours per week": 0,
+        "self hours per week": 0
+    },
+    "goat": {
+        "existing females": 0,
+        "purchased females": 0,
+        "existing males": 0,
+        "purchased males": 0,
+        "hours per week": 0,
+        "self hours per week": 0
+    },
+    "employee": {
+        "min pay per hour": 0,
+        "max pay per hour": 0
+    }
+}

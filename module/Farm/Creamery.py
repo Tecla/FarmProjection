@@ -35,18 +35,18 @@ def cheeseSalesByAnimalPerYear(s, animal):
 def cheeseSessionsPerWeek(s, animal):
     vatSize = s.get('creamery/vat size gal')
     gallonsPerYear = cheeseGallonsUsedByAnimalPerYear(s, animal)
-    return (gallonsPerYear / float(vatSize)) / (365.0 / 7.0)
+    return (gallonsPerYear / float(vatSize)) / (365.0 / 7.0) if vatSize > 0 else 0.0
 
 
 def cheeseCaveSqft(s):
     # Assumptions: each wheel is no bigger than 12x12 inches, shelves allow us to stack 5 tall,
     # they'll age for average 6 months, and we need 50% extra space to walk
-    sellableCheeseWheelsPerYear = 0
+    sellableCheeseWheelsPerYear = 0.0
     animals = livestockList(s)
     for animal in animals:
         sellableCheeseLbsPerYear = cheeseLbsByAnimalPerYear(s, animal)
         lbsPerWheel = s.get('creamery/{}/cheese lbs per wheel'.format(animal))
-        sellableCheeseWheelsPerYear += sellableCheeseLbsPerYear / lbsPerWheel
+        sellableCheeseWheelsPerYear += sellableCheeseLbsPerYear / lbsPerWheel if lbsPerWheel > 0 else 0.0
     return sellableCheeseWheelsPerYear * 0.5 * (1.0 / 5.0) * 1.5
 
 
@@ -54,7 +54,7 @@ def cheeseHoursByAnimalPerYear(s, animal):
     vatSize = s.get('creamery/vat size gal')
     cheeseSessionHours = s.get('creamery/cheese session hours')
     cheeseGallonsPerYear = cheeseGallonsUsedByAnimalPerYear(s, animal)
-    cheeseHours = cheeseSessionHours * cheeseGallonsPerYear / float(vatSize)
+    cheeseHours = cheeseSessionHours * cheeseGallonsPerYear / float(vatSize) if vatSize > 0 else 0.0
     return cheeseHours
 
 
@@ -88,14 +88,14 @@ def iceCreamSalesByAnimalPerYear(s, animal):
 def iceCreamSessionsPerWeek(s, animal):
     iceCreamGallonsPerSession = s.get('creamery/ice cream session gal')
     iceCreamGallonsPerYear = iceCreamMilkGallonsUsedByAnimalPerYear(s, animal)
-    return (iceCreamGallonsPerYear / float(iceCreamGallonsPerSession)) / (365.0 / 7.0)
+    return (iceCreamGallonsPerYear / float(iceCreamGallonsPerSession)) / (365.0 / 7.0) if iceCreamGallonsPerSession > 0 else 0.0
 
 
 def iceCreamHoursByAnimalPerYear(s, animal):
     iceCreamSessionHours = s.get('creamery/ice cream session hours')
     iceCreamGallonsPerSession = s.get('creamery/ice cream session gal')
     iceCreamGallonsPerYear = iceCreamMilkGallonsUsedByAnimalPerYear(s, animal)
-    iceCreamHours = iceCreamSessionHours * iceCreamGallonsPerYear / float(iceCreamGallonsPerSession)
+    iceCreamHours = iceCreamSessionHours * iceCreamGallonsPerYear / float(iceCreamGallonsPerSession) if iceCreamGallonsPerSession > 0 else 0.0
     return iceCreamHours
 
 
@@ -129,14 +129,14 @@ def butterSalesByAnimalPerYear(s, animal):
 def butterSessionsPerWeek(s, animal):
     butterGallonsPerSession = s.get('creamery/butter session gal')
     butterGallonsPerYear = butterGallonsUsedByAnimalPerYear(s, animal)
-    return (butterGallonsPerYear / float(butterGallonsPerSession)) / (365.0 / 7.0)
+    return (butterGallonsPerYear / float(butterGallonsPerSession)) / (365.0 / 7.0) if butterGallonsPerSession > 0 else 0.0
 
 
 def butterHoursByAnimalPerYear(s, animal):
     butterSessionHours = s.get('creamery/butter session hours')
     butterGallonsPerSession = s.get('creamery/butter session gal')
     butterGallonsPerYear = butterGallonsUsedByAnimalPerYear(s, animal)
-    butterHours = butterSessionHours * butterGallonsPerYear / float(butterGallonsPerSession)
+    butterHours = butterSessionHours * butterGallonsPerYear / float(butterGallonsPerSession) if butterGallonsPerSession > 0 else 0.0
     return butterHours
 
 
@@ -170,14 +170,14 @@ def creamSalesByAnimalPerYear(s, animal):
 def creamSessionsPerWeek(s, animal):
     creamGallonsPerSession = s.get('creamery/cream session gal')
     creamGallonsPerYear = creamMilkGallonsUsedByAnimalPerYear(s, animal)
-    return (creamGallonsPerYear / float(creamGallonsPerSession)) / (365.0 / 7.0)
+    return (creamGallonsPerYear / float(creamGallonsPerSession)) / (365.0 / 7.0) if creamGallonsPerSession > 0 else 0.0
 
 
 def creamHoursByAnimalPerYear(s, animal):
     creamSessionHours = s.get('creamery/cream session hours')
     creamGallonsPerSession = s.get('creamery/cream session gal')
     creamGallonsPerYear = creamMilkGallonsUsedByAnimalPerYear(s, animal)
-    creamHours = creamSessionHours * creamGallonsPerYear / float(creamGallonsPerSession)
+    creamHours = creamSessionHours * creamGallonsPerYear / float(creamGallonsPerSession) if creamGallonsPerSession > 0 else 0.0
     return creamHours
 
 
@@ -209,16 +209,16 @@ def yogurtSalesByAnimalPerYear(s, animal):
 
 
 def yogurtSessionsPerWeek(s, animal):
-    creamGallonsPerSession = s.get('creamery/yogurt session gal')
-    creamGallonsPerYear = creamMilkGallonsUsedByAnimalPerYear(s, animal)
-    return (creamGallonsPerYear / float(creamGallonsPerSession)) / (365.0 / 7.0)
+    yogurtGallonsPerSession = s.get('creamery/yogurt session gal')
+    yogurtGallonsPerYear = yogurtMilkGallonsUsedByAnimalPerYear(s, animal)
+    return (yogurtGallonsPerYear / float(yogurtGallonsPerSession)) / (365.0 / 7.0) if yogurtGallonsPerSession > 0 else 0.0
 
 
 def yogurtHoursByAnimalPerYear(s, animal):
     yogurtSessionHours = s.get('creamery/yogurt session hours')
     yogurtGallonsPerSession = s.get('creamery/yogurt session gal')
     yogurtGallonsPerYear = yogurtMilkGallonsUsedByAnimalPerYear(s, animal)
-    yogurtHours = yogurtSessionHours * yogurtGallonsPerYear / float(yogurtGallonsPerSession)
+    yogurtHours = yogurtSessionHours * yogurtGallonsPerYear / float(yogurtGallonsPerSession) if yogurtGallonsPerSession > 0 else 0.0
     return yogurtHours
 
 
@@ -243,15 +243,17 @@ def creameryCommonCostPerYear(s):
     amortizationYears = s.get('farm/amortization years')
     fixedAmortizationActive = True if s.get('farm/years running') <= amortizationYears else False
 
-    cost = 0
+    cost = 0.0
     if fixedAmortizationActive:
         fixedCosts = s.get('creamery/fixed/* cost')
-        for c in fixedCosts:
-            cost += c / float(amortizationYears)
-        cost += creameryFacilityCost(s) / float(amortizationYears)
+        if fixedCosts:
+            for c in fixedCosts:
+                cost += c / float(amortizationYears) if amortizationYears > 0 else 0.0
+        cost += creameryFacilityCost(s) / float(amortizationYears) if amortizationYears > 0 else 0.0
     yearlyCosts = s.get('creamery/yearly/* cost')
-    for c in yearlyCosts:
-        cost += c
+    if yearlyCosts:
+        for c in yearlyCosts:
+            cost += c
     return cost
 
 

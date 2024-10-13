@@ -46,7 +46,8 @@ def prettyPrintDict(d, indent=0):
 
 
 class Scenario:
-    def __init__(self, commonDir, scenarioDir):
+    def __init__(self, commonDir, scenarioDir, defaultScenario=None):
+        self.defaultScenario = defaultScenario
         self.json = {}
         for file in os.listdir(commonDir):
             filename = os.path.join(commonDir, os.fsdecode(file))
@@ -106,7 +107,12 @@ class Scenario:
         pathArray = path.split('/')
         results = self.getSub(pathArray, self.json, path)
         if not results:
-            return defaultValue
+            if defaultValue:
+                return defaultValue
+            elif self.defaultScenario:
+                return self.defaultScenario.get(path, defaultValue)
+            else:
+                return None
         if '*' in path or len(results) > 1:
             return results
         return results[0]

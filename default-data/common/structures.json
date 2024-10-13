@@ -1,0 +1,27 @@
+{
+    "barn": {
+        "cost per sqft": 0,
+        "overhead sqft pct": 0
+    },
+    "dairy": {
+        "cost per sqft": 0,
+        "milkhouse sqft": 0,
+        "bathroom sqft": 0,
+        "overhead sqft": 0
+    },
+    "creamery": {
+        "cost per sqft": 0,
+        "overhead sqft": 0
+    },
+    "store": {
+        "cost per sqft": 0,
+        "utility sqft": 0,
+        "office sqft": 0,
+        "bathroom sqft": 0,
+        "overhead sqft": 0
+    },
+    "__comments__": [
+        "Overhead sqft is for hallways/entry/etc beyond the normal useable space while overhead sqft pct is percentage overhead beyond computed area",
+        "The main area for the store is specified in the scenario, while the main area for the rest are computed from livestock, milking stands, etc"
+    ]
+}
