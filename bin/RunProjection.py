@@ -1,3 +1,4 @@
+#!/bin/env python
 # This Python file uses the following encoding: utf-8
 
 import argparse
@@ -9,9 +10,9 @@ import sys
 # Find script location, and from there add to the python path so we can use
 # common scripts
 binDir = os.path.dirname(os.path.abspath(inspect.stack()[0][1]))
-libPythonPath = os.path.join(binDir, '..', 'lib')
-if libPythonPath not in sys.path:
-    sys.path.append(libPythonPath)
+modulePythonPath = os.path.join(binDir, '..', 'module')
+if modulePythonPath not in sys.path:
+    sys.path.append(modulePythonPath)
 
 import Farm
 
