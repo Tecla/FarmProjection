@@ -37,6 +37,7 @@ def GenerateReport(scenario):
     root['Livestock']['Animals'] = animals
     root['Livestock']['Barn cost'] = dollars(barnCost(s))
     root['Livestock']['Barn sqft'] = round(barnSqft(s), 0)
+    root['Livestock']['Fence cost'] = dollars(livestockFenceCost(s))
     root['Livestock']['Common cost per year'] = dollars(livestockCommonCostPerYear(s))
     for a in animals:
         root['Livestock'][a] = {}

@@ -7,17 +7,20 @@
     "fixed": {
         "permanent fence cost": 1000.0,
         "temporary fence cost": 500.0,
+        "corral fence cost": 0.0,
         "shelters cost": 15000.0,
         "tractor cost": 0.0
     },
     "yearly": {
         "permanent fence cost": 200.0,
         "temporary fence cost": 150.0,
+        "corral fence cost": 0.0,
         "insurance cost": 3000
     },
     "fence": {
         "permanent fence ft": 3700,
-        "temporary fence ft": 200
+        "temporary fence ft": 200,
+        "corral fence ft": 0
     },
     "years running": 0
 }

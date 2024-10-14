@@ -8,7 +8,8 @@
     },
     "fence": {
         "permanent fence cost per ft": 2.5,
-        "temporary fence cost per ft": 1.2
+        "temporary fence cost per ft": 1.2,
+        "corral fence cost per ft": 17.0
     },
     "facility cost split methods": [ "animal cost", "animal space", "animal time" ],
     "facility cost split method": "animal space",

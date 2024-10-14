@@ -8,7 +8,8 @@
     },
     "fence": {
         "permanent fence cost per ft": 0.0,
-        "temporary fence cost per ft": 0.0
+        "temporary fence cost per ft": 0.0,
+        "corral fence cost per ft": 0.0
     },
     "facility cost split methods": [ "animal cost", "animal space", "animal time" ],
     "facility cost split method": "animal space",

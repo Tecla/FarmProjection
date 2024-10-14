@@ -130,9 +130,11 @@ def barnCost(s):
 def livestockFenceCost(s):
     permFenceCostPerFt = s.get('farm/fence/permanent fence cost per ft')
     tempFenceCostPerFt = s.get('farm/fence/temporary fence cost per ft')
+    corralFenceCostPerFt = s.get('farm/fence/corral fence cost per ft')
     permFenceLength = s.get('farm/fence/permanent fence ft')
     tempFenceLength = s.get('farm/fence/temporary fence ft')
-    return permFenceCostPerFt * permFenceLength + tempFenceCostPerFt * tempFenceLength
+    corralFenceLength = s.get('farm/fence/corral fence ft')
+    return permFenceCostPerFt * permFenceLength + tempFenceCostPerFt * tempFenceLength + corralFenceCostPerFt * corralFenceLength
 
 def livestockCommonCostPerYear(s):
     amortizationYears = s.get('farm/amortization years')
