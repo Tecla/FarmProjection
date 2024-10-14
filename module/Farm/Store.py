@@ -19,6 +19,32 @@ def storeFacilityCost(s):
     return storeFacilitySqft(s) * costPerSqft
 
 
+def storeThirdPartyCostPerYear(s):
+    costs = 0.0
+    thirdPartyItems = s.get('store/third party')
+    for name, item in thirdPartyItems.items():
+        if name == "__comments__":
+            continue
+        if 'cost' not in item or 'price' not in item or 'items sold per month' not in item:
+            print('Invalid third party item found in store: {} {}'.format(name, item))
+            continue
+        costs += item['cost'] * item['items sold per month'] * 12
+    return costs
+
+
+def storeThirdPartyIncomePerYear(s):
+    income = 0.0
+    thirdPartyItems = s.get('store/third party')
+    for name, item in thirdPartyItems.items():
+        if name == "__comments__":
+            continue
+        if 'cost' not in item or 'price' not in item or 'items sold per month' not in item:
+            print('Invalid third party item found in store: {}'.format(name))
+            continue
+        income += item['price'] * item['items sold per month'] * 12
+    return income
+
+
 def storeCommonCostPerYear(s):
     amortizationYears = s.get('farm/amortization years')
     fixedAmortizationActive = True if s.get('farm/years running') <= amortizationYears else False
@@ -73,8 +99,8 @@ def storeEmployeeExpectedPayPerYear(s):
 
 
 def storeIncomePerYear(s):
-    # All income is currently attributed to other parts of the farm
-    return -storeCommonCostPerYear(s)
+    # All the rest of the income is currently attributed to other parts of the farm
+    return storeThirdPartyIncomePerYear(s) - storeThirdPartyCostPerYear(s) - storeCommonCostPerYear(s)
 
 
 def storeNetIncomePerYear(s):

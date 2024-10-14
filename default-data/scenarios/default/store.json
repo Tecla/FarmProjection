@@ -6,6 +6,11 @@
     },
     "yearly": {
     },
+    "third party": {
+        "__comments__": [
+            "Here you can place named products, each with three items: cost, price, items sold per month"
+        ]
+    },
     "open hours per week": 0,
     "self hours per week": 0,
     "employee": {

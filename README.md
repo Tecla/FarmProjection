@@ -32,9 +32,12 @@ Each scenario combined with the common inputs describes multiple parts of the fa
 * farm
 * structures
 * livestock
+  * Supports offspring sales
 * milk
 * creamery
+  * Supports butter, cheese, cream, ice cream, yogurt sales
 * store
+  * Supports sales of third part items in addition to all sales above
 
 More will be added in the future. The complete set of operational inputs are contained in the example scenarios, so to create your own you should copy an existing scenario and modify it to suit your own projections. Note that you do not have to provide every input in your scenario, it will fall back to a default (zero, empty) input if you omit one. Also note that an input can be provided in a JSON file common to all your scenarios, or it can be provided in each individual scenario, it doesn't matter which you choose. But currently you cannot provide an input in both locations without generating an error.
 
@@ -44,7 +47,6 @@ Scenarios support adding multiple kinds of livestock. If one is added but zero a
 
 There are numerous areas missing from the projections at this point; this is, for a first pass, quite dairy-centric (and a raw-milk dairy at that). Various things not taken into account yet:
 
-* Third-party products in the farm store (planned)
 * Kill, butchery, and meat shop costs and income (planned)
 * Culinary water / well cost (planned)
 * Irrigation water cost (planned)

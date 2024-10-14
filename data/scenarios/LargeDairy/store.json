@@ -10,6 +10,16 @@
         "sales system cost": 1000,
         "website and marketing cost": 1000
     },
+    "third party": {
+        "__comments__": [
+            "Here you can place named products, each with three items: cost, price, items sold per month"
+        ],
+        "soap": {
+            "cost": 1.5,
+            "price": 2.0,
+            "items sold per month": 20
+        }
+    },
     "open hours per week": 24,
     "self hours per week": 12,
     "employee": {
