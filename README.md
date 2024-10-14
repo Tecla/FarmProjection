@@ -44,14 +44,13 @@ Scenarios support adding multiple kinds of livestock. If one is added but zero a
 
 There are numerous areas missing from the projections at this point; this is, for a first pass, quite dairy-centric (and a raw-milk dairy at that). Various things not taken into account yet:
 
+* Third-party products in the farm store (planned)
+* Kill, butchery, and meat shop costs and income (planned)
+* Culinary water / well cost (planned)
+* Irrigation water cost (planned)
+* Fuel and transportation cost (planned)
+* Grain and garden operational costs and income (planned)
 * Land cost
-* Culinary water / well cost
-* Irrigation water cost
-* Permanent fencing cost
-* Fuel and transportation cost
-* Kill, butchery, and meat shop costs and income
-* Grain and garden operational costs and income
-* Tractor and other external machinery costs
 * Home and other personal costs (e.g. this is not for personal budgeting!)
 
 There are bound to be more. We will add computational workflows and make available inputs for these types of costs in future development.

@@ -3,13 +3,19 @@
         "You may add fixed or yearly costs in each category simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
     ],
     "fixed": {
-        "electric fence cost": 0.0,
-        "posts cost": 0.0,
-        "charger cost": 0.0,
-        "shelters cost": 0.0
+        "permanent fence cost": 0.0,
+        "temporary fence cost": 0.0,
+        "shelters cost": 0.0,
+        "tractor cost": 0.0
     },
     "yearly": {
+        "permanent fence cost": 0.0,
+        "temporary fence cost": 0.0,
         "insurance cost": 0
+    },
+    "fence": {
+        "permanent fence ft": 0,
+        "temporary fence ft": 0
     },
     "years running": 0
 }

@@ -6,6 +6,10 @@
         "premium hay cost per ton": 0,
         "cheap hay cost per small bale": 0
     },
+    "fence": {
+        "permanent fence cost per ft": 0.0,
+        "temporary fence cost per ft": 0.0
+    },
     "facility cost split methods": [ "animal cost", "animal space", "animal time" ],
     "facility cost split method": "animal space",
     "amortization years": 0,

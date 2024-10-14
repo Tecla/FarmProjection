@@ -1,15 +1,23 @@
 {
     "__comments__": [
-        "You may add fixed or yearly costs in each category simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
+        "You may add fixed or yearly costs in each category simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up.",
+        "Permanent fence costs include corner braces, repairs, gates, etc. Temporary fence costs include electric chargers, grounding rods, repairs, etc.",
+        "Dynamic fence costs are calculated from the number of feet times the cost per foot."
     ],
     "fixed": {
-        "electric fence cost": 5000.0,
-        "posts cost": 1000.0,
-        "charger cost": 1000.0,
-        "shelters cost": 30000.0
+        "permanent fence cost": 1000.0,
+        "temporary fence cost": 500.0,
+        "shelters cost": 30000.0,
+        "tractor cost": 25000.0
     },
     "yearly": {
+        "permanent fence cost": 200.0,
+        "temporary fence cost": 200.0,
         "insurance cost": 4000
+    },
+    "fence": {
+        "permanent fence ft": 7500,
+        "temporary fence ft": 400
     },
     "years running": 0
 }
