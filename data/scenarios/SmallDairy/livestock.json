@@ -25,6 +25,6 @@
     },
     "employee": {
         "min pay per hour": 15,
-        "max pay per hour": 20
+        "max pay per hour": 15
     }
 }

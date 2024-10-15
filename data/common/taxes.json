@@ -1,11 +1,11 @@
 {
     "Tax situation": "Joint",
-    "State tax rate": 0.05,
+    "State tax rate pct": 5,
 
-    "SS": 0.062,
-    "Medicare": 0.0145,
+    "SS pct": 6.2,
+    "Medicare pct": 1.45,
     "SS limit": 168600.0,
-    "OASDI tax base": 0.9235,
+    "OASDI tax base pct": 92.35,
     "Tax table": {
         "Single": {
             "10": 11600,

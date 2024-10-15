@@ -7,11 +7,11 @@ from .Store import *
 from .Utilities import *
 
 
-def incomeByAnimalPerYear(s, animal):
+def grossIncomeByAnimalPerYear(s, animal):
     income = 0
-    income += livestockIncomePerYear(s, animal)
-    income += milkIncomeByAnimalPerYear(s, animal)
-    income += creameryIncomeByAnimalPerYear(s, animal)
+    income += livestockGrossIncomePerYear(s, animal)
+    income += milkGrossIncomeByAnimalPerYear(s, animal)
+    income += creameryGrossIncomeByAnimalPerYear(s, animal)
     return income
 
 def netIncomeByAnimalPerYear(s, animal):
@@ -23,24 +23,25 @@ def netIncomeByAnimalPerYear(s, animal):
 
 def netSelfPayPerYearEstimate(s, netIncome):
     taxType = s.get('taxes/Tax situation')
-    ssTaxRate = s.get('taxes/SS')
-    mcTaxRate = s.get('taxes/Medicare')
+    ssTaxRate = s.get('taxes/SS pct') * 0.01
+    mcTaxRate = s.get('taxes/Medicare pct') * 0.01
     ssLimit = s.get('taxes/SS limit')
-    seTaxBase = s.get('taxes/OASDI tax base')
-    stateTaxRate = s.get('taxes/State tax rate')
+    seTaxBase = s.get('taxes/OASDI tax base pct') * 0.01
+    stateTaxRate = s.get('taxes/State tax rate pct') * 0.01
 
     taxTable = []
     taxDict = s.get('taxes/Tax table/{}'.format(taxType))
     for taxRateStr, threshold in taxDict.items():
         taxTable += [ (int(taxRateStr), threshold) ]
     def applyTaxTable(income, table):
-        taxes = 0
+        taxes = 0.0
         incomeRemaining = income
         lastThreshold = 0
         for entry in table:
             taxPct, threshold = entry
             taxRate = taxPct * 0.01
-            if income >= threshold:
+            if income >= lastThreshold:
+                incomeAtThisLevel = min(income, threshold) - lastThreshold
                 taxes += (min(income, threshold) - lastThreshold) * taxRate
                 lastThreshold = threshold
             else:
@@ -87,16 +88,16 @@ def ProjectProfit(scenario):
     print('Yogurt gallons to sell per week: {}'.format(round(yogurtGallons, 2)))
     print('')
 
-    income = 0
+    grossIncome = 0
     netIncome = 0
     for animal in animals:
-        incomeByAnimal = incomeByAnimalPerYear(s, animal)
+        incomeByAnimal = grossIncomeByAnimalPerYear(s, animal)
         netIncomeByAnimal = netIncomeByAnimalPerYear(s, animal)
-        print("Income and net income for {}s: {}, {}".format(animal, dollars(incomeByAnimal), dollars(netIncomeByAnimal)))
-        income += incomeByAnimal
+        print("Gross income and net income for {}s: {}, {}".format(animal, dollars(incomeByAnimal), dollars(netIncomeByAnimal)))
+        grossIncome += incomeByAnimal
         netIncome += netIncomeByAnimal
-    income += storeIncomePerYear(s)
-    print('Total income: {}'.format(dollars(income)))
+    grossIncome += storeGrossIncomePerYear(s)
+    print('Total income: {}'.format(dollars(grossIncome)))
     print('')
 
     totalNetIncome = netIncome

@@ -23,7 +23,7 @@
     "open hours per week": 24,
     "self hours per week": 12,
     "employee": {
-        "min pay per hour": 15,
+        "min pay per hour": 25,
         "max pay per hour": 25
     },
     "store area sqft": 1200

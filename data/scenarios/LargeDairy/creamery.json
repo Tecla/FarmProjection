@@ -89,7 +89,7 @@
     "cheese yield loss pct": 10,
     "vat size gal": 150,
     "cheese session hours": 16,
-    "cheese self hours": 5.5,
+    "cheese self hours": 5,
 
     "butter session gal": 20,
     "butter session hours": 1,
@@ -101,11 +101,11 @@
 
     "ice cream session gal": 20,
     "ice cream session hours": 2,
-    "ice cream self hours": 2,
+    "ice cream self hours": 0,
 
     "yogurt session gal": 10,
     "yogurt session hours": 2,
-    "yogurt self hours": 2,
+    "yogurt self hours": 0,
 
     "employee": {
         "min pay per hour": 20,

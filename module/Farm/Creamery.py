@@ -273,14 +273,19 @@ def creameryCommonCostProportion(s, animal):
     return animalGallons / float(totalGallons) if totalGallons > 0 else 0
 
 
-def creameryIncomeByAnimalPerYear(s, animal):
+def creameryGrossIncomeByAnimalPerYear(s, animal):
     sales = cheeseSalesByAnimalPerYear(s, animal)
     sales += creamSalesByAnimalPerYear(s, animal)
     sales += iceCreamSalesByAnimalPerYear(s, animal)
     sales += butterSalesByAnimalPerYear(s, animal)
     sales += yogurtSalesByAnimalPerYear(s, animal)
+    return sales
+
+
+def creameryNetIncomeByAnimalPerYearNoEmployees(s, animal):
+    income = creameryGrossIncomeByAnimalPerYear(s, animal)
     costs = creameryCommonCostPerYear(s) * creameryCommonCostProportion(s, animal)
-    return sales - costs
+    return income - costs
 
 
 def creameryHoursByAnimalPerYear(s, animal):
@@ -347,7 +352,7 @@ def creameryEmployeeExpectedPayRatePerHour(s):
     animals = livestockList(s)
     for animal in animals:
         totalHoursPerYear += creameryEmployeeHoursByAnimalPerYear(s, animal)
-        totalCreameryIncomePerYear += creameryIncomeByAnimalPerYear(s, animal)
+        totalCreameryIncomePerYear += creameryNetIncomeByAnimalPerYearNoEmployees(s, animal)
     if totalHoursPerYear <= 0:
         return minPayRate
     return min(maxPayRate, max(minPayRate, totalCreameryIncomePerYear / totalHoursPerYear))
@@ -418,7 +423,7 @@ def cheeseProfitPerLb(s, animal):
 
 
 def creameryNetIncomeByAnimalPerYear(s, animal):
-    income = creameryIncomeByAnimalPerYear(s, animal)
+    income = creameryNetIncomeByAnimalPerYearNoEmployees(s, animal)
     dairyEmployeeCost, dairyEmployeeOverhead = dairyEmployeeExpectedPayPerYear(s)
     employeeCost, employeeOverhead = creameryEmployeeExpectedPayPerYear(s)
     # Only attribute portion of dairy employee cost to (milk to creamery gallons)/(total milk)

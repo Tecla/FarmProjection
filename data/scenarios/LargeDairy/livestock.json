@@ -24,7 +24,7 @@
         "self hours per week": 0
     },
     "employee": {
-        "min pay per hour": 15,
-        "max pay per hour": 25
+        "min pay per hour": 20,
+        "max pay per hour": 20
     }
 }

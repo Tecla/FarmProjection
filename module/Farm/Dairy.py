@@ -87,8 +87,13 @@ def dairyCommonCostProportion(s, animal):
     return animalTime / totalTime if totalTime > 0 else 0
 
 
-def milkIncomeByAnimalPerYear(s, animal):
+def milkGrossIncomeByAnimalPerYear(s, animal):
     sales = milkSalesPerYear(s, animal)
+    return sales
+
+
+def milkNetIncomeByAnimalPerYearNoEmployees(s, animal):
+    sales = milkGrossIncomeByAnimalPerYear(s, animal)
     costs = milkCostByAnimalPerYear(s, animal)
     costs += milkCommonCostPerYear(s) * dairyCommonCostProportion(s, animal)
     return sales - costs
@@ -148,7 +153,7 @@ def dairyEmployeeExpectedPayRatePerHour(s):
     animals = livestockList(s)
     for animal in animals:
         totalHoursPerYear += dairyEmployeeHoursPerYear(s, animal)
-        totalMilkIncomePerYear += milkIncomeByAnimalPerYear(s, animal)
+        totalMilkIncomePerYear += milkNetIncomeByAnimalPerYearNoEmployees(s, animal)
     if totalHoursPerYear <= 0:
         return minPayRate
     return min(maxPayRate, max(minPayRate, totalMilkIncomePerYear / totalHoursPerYear))
@@ -204,10 +209,15 @@ def milkProfitPerGallon(s, animal):
 
 
 def dairyNetIncome(s, animal):
-    income = milkIncomeByAnimalPerYear(s, animal)
+    income = milkGrossIncomeByAnimalPerYear(s, animal)
+    costs = milkCostByAnimalPerYear(s, animal)
+    costs += milkCommonCostPerYear(s) * dairyCommonCostProportion(s, animal)
+
     employeeCost, employeeOverhead = dairyEmployeeExpectedPayPerYear(s)
     # Only attribute portion of dairy employee cost to (time milking this animal)/(total milking time)
     bottledProportion = s.get('milk/{}/bottled pct'.format(animal)) * 0.01
     employeePartCost = (employeeCost + employeeOverhead) * dairyCommonCostProportion(s, animal) * bottledProportion
-    return income - employeePartCost
+    costs += employeePartCost
+
+    return income - costs
 

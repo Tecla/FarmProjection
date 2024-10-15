@@ -49,7 +49,7 @@ def GenerateReport(scenario):
         root['Livestock'][a]['Bedding cost per head'] = dollars(livestockBeddingCost(s, a))
         root['Livestock'][a]['Hay cost per head'] = dollars(livestockHayCost(s, a))
         root['Livestock'][a]['Sales of {}s'.format(a)] = dollars(livestockSalesPerYear(s, a))
-        root['Livestock'][a]['Income per year'] = dollars(livestockIncomePerYear(s, a))
+        root['Livestock'][a]['Gross income per year'] = dollars(livestockGrossIncomePerYear(s, a))
         root['Livestock'][a]['Net income per year'] = dollars(livestockNetIncomePerYear(s, a))
         root['Livestock'][a]['Work hours per year'] = rounded(livestockHoursPerYear(s, a), 2)
         root['Livestock'][a]['Work hours per week'] = rounded(livestockHoursPerWeek(s, a), 2)
@@ -72,7 +72,7 @@ def GenerateReport(scenario):
         root['Dairy'][a]['Cost per CWT'] = dollars(milkCostPerCWT(s, a))
         root['Dairy'][a]['Cost per gallon'] = dollars(milkCostPerGallon(s, a))
         root['Dairy'][a]['Pct of common cost'] = '{}%'.format(round(dairyCommonCostProportion(s, a) * 100, 1))
-        root['Dairy'][a]['Income per year'] = dollars(milkIncomeByAnimalPerYear(s, a))
+        root['Dairy'][a]['Gross income per year'] = dollars(milkGrossIncomeByAnimalPerYear(s, a))
         root['Dairy'][a]['Net income per year'] = dollars(dairyNetIncome(s, a))
         root['Dairy'][a]['Profit per CWT'] = dollars(milkProfitPerCWT(s, a))
         root['Dairy'][a]['Profit per gallon'] = dollars(milkProfitPerGallon(s, a))
@@ -119,7 +119,7 @@ def GenerateReport(scenario):
         root['Creamery'][a]['Yogurt gallons sold per week'] = rounded(yogurtGallonsByAnimalPerWeek(s, a), 2)
         root['Creamery'][a]['Yogurt sales per year'] = dollars(yogurtSalesByAnimalPerYear(s, a))
         root['Creamery'][a]['Yogurt sessions per week'] = rounded(yogurtSessionsPerWeek(s, a), 4)
-        root['Creamery'][a]['Income per year'] = dollars(creameryIncomeByAnimalPerYear(s, a))
+        root['Creamery'][a]['Gross income per year'] = dollars(creameryGrossIncomeByAnimalPerYear(s, a))
         root['Creamery'][a]['Net income per year'] = dollars(creameryNetIncomeByAnimalPerYear(s, a))
         root['Creamery'][a]['Pct of common cost'] = '{}%'.format(round(creameryCommonCostProportion(s, a) * 100, 1))
         root['Creamery'][a]['Creamery hours per year'] = rounded(creameryHoursByAnimalPerYear(s, a), 0)
@@ -134,7 +134,7 @@ def GenerateReport(scenario):
     root['Store']['Common cost per year'] = dollars(storeCommonCostPerYear(s))
     root['Store']['Third party items cost per year'] = dollars(storeThirdPartyCostPerYear(s))
     root['Store']['Third party items income per year'] = dollars(storeThirdPartyIncomePerYear(s))
-    root['Store']['Store income per year'] = dollars(storeIncomePerYear(s))
+    root['Store']['Store gross income per year'] = dollars(storeGrossIncomePerYear(s))
     root['Store']['Store net income per year'] = dollars(storeNetIncomePerYear(s))
     root['Store']['Hours per year'] = rounded(storeHoursPerYear(s), 0)
     root['Store']['Employee hours per year'] = rounded(storeEmployeeHoursPerYear(s), 0)
@@ -197,21 +197,22 @@ def GenerateReport(scenario):
     root['Employees']['Store']['Hourly pay'] = dollars(storeEmployeeHourlyPay)
     root['Employees']['Store']['Hours per year'] = rounded(storeEmployeeHoursPerYear(s), 0)
     root['Employees']['Store']['Hours per week'] = rounded(storeEmployeeHoursPerWeek(s), 2)
+    root['Employees']['Store']['Hours per day'] = rounded(storeEmployeeHoursPerDay(s), 2)
 
     # Income report
-    income = 0
+    grossIncome = 0
     netIncome = 0
     animals = livestockList(s)
     for animal in animals:
-        incomeByAnimal = incomeByAnimalPerYear(s, animal)
+        incomeByAnimal = grossIncomeByAnimalPerYear(s, animal)
         netIncomeByAnimal = netIncomeByAnimalPerYear(s, animal)
         root['Income'][animal] = {}
-        root['Income'][animal]['Income'] = dollars(incomeByAnimal)
+        root['Income'][animal]['Gross income'] = dollars(incomeByAnimal)
         root['Income'][animal]['Net income'] = dollars(netIncomeByAnimal)
-        income += incomeByAnimal
+        grossIncome += incomeByAnimal
         netIncome += netIncomeByAnimal
-    income += storeIncomePerYear(s)
-    root['Income']['Total income'] = dollars(income)
+    grossIncome += storeGrossIncomePerYear(s)
+    root['Income']['Total gross income'] = dollars(grossIncome)
 
     totalNetIncome = netIncome
     totalNetIncome += storeNetIncomePerYear(s)

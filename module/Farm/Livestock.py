@@ -153,15 +153,20 @@ def livestockCommonCostPerYear(s):
     return cost
 
 
-def livestockIncomePerYear(s, animal):
+def livestockGrossIncomePerYear(s, animal):
     sales = livestockSalesPerYear(s, animal)
+    return sales
+
+
+def livestockNetIncomePerYearNoEmployees(s, animal):
+    income = livestockSalesPerYear(s, animal)
     costs = livestockCostPerYear(s, animal)
     costs += livestockCommonCostPerYear(s) * livestockCommonCostProportion(s, animal)
-    return sales - costs
+    return income - costs
 
 
 def livestockNetIncomePerYear(s, animal):
-    income = livestockIncomePerYear(s, animal)
+    income = livestockNetIncomePerYearNoEmployees(s, animal)
     employeeCost, employeeOverhead = livestockEmployeeExpectedPayPerYear(s)
     # Only attribute portion of employee cost to (time dealing with this animal)/(total time for all animals)
     employeePartCost = (employeeCost + employeeOverhead) * livestockCommonCostProportion(s, animal, 'animal time')
@@ -226,7 +231,7 @@ def livestockEmployeeHoursPerWeek(s, animal):
 
 
 def livestockEmployeeHoursPerDay(s, animal):
-    return livestockEmployeeHoursPerYear(s, animal) / 365.0
+    return livestockEmployeeHoursPerWeek(s, animal) / 7.0
 
 
 def livestockEmployeeExpectedPayRatePerHour(s):
@@ -237,7 +242,7 @@ def livestockEmployeeExpectedPayRatePerHour(s):
     animals = livestockList(s)
     for animal in animals:
         totalHoursPerYear += livestockEmployeeHoursPerYear(s, animal)
-        totalIncomePerYear += livestockIncomePerYear(s, animal)
+        totalIncomePerYear += livestockNetIncomePerYearNoEmployees(s, animal)
     if totalHoursPerYear <= 0:
         return minPayRate
     return min(maxPayRate, max(minPayRate, totalIncomePerYear / totalHoursPerYear))

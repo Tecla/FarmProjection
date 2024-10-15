@@ -78,6 +78,10 @@ def storeEmployeeHoursPerYear(s):
     return storeEmployeeHoursPerWeek(s) * (365.0 / 7.0)
 
 
+def storeEmployeeHoursPerDay(s):
+    return storeEmployeeHoursPerWeek(s) / 7.0
+
+
 def storeEmployeeExpectedPayRatePerHour(s):
     minPayRate = s.get('store/employee/min pay per hour')
     maxPayRate = s.get('store/employee/max pay per hour')
@@ -87,8 +91,8 @@ def storeEmployeeExpectedPayRatePerHour(s):
 
 # Returns a tuple of (pay, overhead)
 def storeEmployeeExpectedPayPerYear(s):
-    ssTaxRate = s.get('taxes/SS')
-    mcTaxRate = s.get('taxes/Medicare')
+    ssTaxRate = s.get('taxes/SS pct') * 0.01
+    mcTaxRate = s.get('taxes/Medicare pct') * 0.01
     ssLimit = s.get('taxes/SS limit')
 
     payRatePerHour = storeEmployeeExpectedPayRatePerHour(s)
@@ -98,11 +102,11 @@ def storeEmployeeExpectedPayPerYear(s):
     return (incomePerYear, overheadPerYear)
 
 
-def storeIncomePerYear(s):
+def storeGrossIncomePerYear(s):
     # All the rest of the income is currently attributed to other parts of the farm
-    return storeThirdPartyIncomePerYear(s) - storeThirdPartyCostPerYear(s) - storeCommonCostPerYear(s)
+    return storeThirdPartyIncomePerYear(s)
 
 
 def storeNetIncomePerYear(s):
     storeEmployeeYearlyPay, storeEmployeeYearlyOverhead = storeEmployeeExpectedPayPerYear(s)
-    return storeIncomePerYear(s) - storeEmployeeYearlyPay - storeEmployeeYearlyOverhead
+    return storeGrossIncomePerYear(s) - storeThirdPartyCostPerYear(s) - storeCommonCostPerYear(s) - storeEmployeeYearlyPay - storeEmployeeYearlyOverhead
