@@ -58,10 +58,12 @@ def netSelfPayPerYearEstimate(s, netIncome):
     return max(0.0, netIncome - taxes)
 
 
-def ProjectProfit(scenario):
+def ProjectProfit(scenario, scenarioName):
     s = scenario
     print("Summary")
     print("=======")
+    print('')
+    print('Scenario: {}'.format(scenarioName))
     print('')
     print("Total acres needed: {}".format(neededAcres(s)))
     print('')

@@ -20,26 +20,48 @@ import Farm
 if __name__ == "__main__":
     # Set up program arguments
     parser = argparse.ArgumentParser(description="Run farm projection")
-    parser.add_argument('scenario', help="Scenario to run (in data/scenarios/<scenario>)")
+    parser.add_argument('scenario', help="Scenario to run (in <datadir>/scenarios/<scenario>). Use 'all' to run all scenarios.")
     parser.add_argument('--datadir', default='', help="Data directory location with common and scenarios subdirectories")
-    parser.add_argument('--report', default='', help="Location to write reports to (will add report extension automatically)")
-    parser.add_argument('--report_json', action='store_true', help='Write JSON report')
-    parser.add_argument('--report_html', action='store_true', help='Write HTML report')
+    parser.add_argument('--reportdir', default='', help="Location to write reports to. If not specified, reports are written to <datadir>/reports")
     args = parser.parse_args()
 
     if not args.datadir or len(args.datadir) == 0:
-        dataDir = os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), '..', 'data')
+        dataDir = os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), '..', 'data'))
     else:
-        dataDir = args.datadir
+        dataDir = os.path.realpath(args.datadir)
     defaultDataDir = os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), '..', 'default-data')
     defaultScenario = Farm.Scenario(os.path.join(defaultDataDir, 'common'), os.path.join(defaultDataDir, 'scenarios', 'default'))
-    scenario = Farm.Scenario(os.path.join(dataDir, 'common'), os.path.join(dataDir, 'scenarios', args.scenario), defaultScenario)
 
-    if args.report and len(args.report) > 0 and (args.report_json or args.report_html):
+    if not args.reportdir or len(args.reportdir) == 0:
+        reportDir = os.path.join(dataDir, 'reports')
+        if not os.path.exists(dataDir):
+            print("ERROR: data directory doesn't exist, no report subdirectory will be created within it: {}".format(dataDir))
+            exit(1)
+        if not os.path.exists(reportDir):
+            os.mkdir(reportDir, 0o755)
+    else:
+        reportDir = args.reportdir
+
+    scenariosList = []
+    if args.scenario is not None and args.scenario != 'all':
+        scenariosList = [ args.scenario ]
+    else:
+        dirList = os.listdir(os.path.join(dataDir, 'scenarios'))
+        for item in dirList:
+            if os.path.isdir(os.path.join(dataDir, 'scenarios', item)):
+                scenariosList += [ item ]
+
+    firstScenario = True
+    for scenarioName in scenariosList:
+        if firstScenario:
+            firstScenario = False
+        else:
+            print('')
+
+        scenario = Farm.Scenario(os.path.join(dataDir, 'common'), os.path.join(dataDir, 'scenarios', scenarioName), defaultScenario)
+
         report = Farm.GenerateReport(scenario)
-        if args.report_json:
-            Farm.GenerateReportJson(report, args.report + '.json')
-        if args.report_html:
-            Farm.GenerateReportHtml(report, args.report + '.html', args.scenario)
-
-    Farm.ProjectProfit(scenario)
+        Farm.GenerateReportJson(report, os.path.join(reportDir, scenarioName + '.json'))
+        Farm.GenerateReportHtml(report, os.path.join(reportDir, scenarioName + '.html'), scenarioName)
+        print('')
+        Farm.ProjectProfit(scenario, scenarioName)
