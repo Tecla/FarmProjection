@@ -46,7 +46,8 @@ def prettyPrintDict(d, indent=0):
 
 
 class Scenario:
-    def __init__(self, commonDir, scenarioDir, defaultScenario=None):
+    # Overrides are a list of lists, like thus: [ [ 'path/to/some input', value ], [ 'path/to another', value ], ... ]
+    def __init__(self, commonDir, scenarioDir, defaultScenario=None, overrides=[]):
         self.defaultScenario = defaultScenario
         self.json = {}
         for file in os.listdir(commonDir):
@@ -68,6 +69,15 @@ class Scenario:
                     mergeDict(self.json[entryName], json.load(jsonFile))
                 else:
                     self.json[entryName] = json.load(jsonFile)
+        # Apply overrides
+        if overrides is not None:
+            for override in overrides:
+                try:
+                    value = float(override[1])
+                    self.set(override[0], value)
+                except:
+                    self.set(override[0], override[1])
+
 
     def getSub(self, pathArray, d, originalPath):
         if len(pathArray) == 0:
@@ -116,6 +126,50 @@ class Scenario:
         if '*' in path or len(results) > 1:
             return results
         return results[0]
+
+    def setSub(self, pathArray, d, originalPath, newValue):
+        if len(pathArray) == 0:
+            print("WARNING: When setting a value, empty path array found in path: {}".format(originalPath))
+            return False
+        valueGotSet = False
+        pathElem = pathArray[0]
+        if '*' in pathElem:
+            matchStr = '^' + pathElem.replace('*', '.*')
+            matcher = re.compile(matchStr)
+            for key, value in d.items():
+                if not matcher.match(key):
+                    continue
+                if len(pathArray) == 1:
+                    print("Value applied: '{}' at key '{}' to value: {}".format(originalPath, key, newValue))
+                    d[key] = newValue
+                    valueGotSet = True
+                elif isinstance(value, dict):
+                    if self.setSub(pathArray[1:], value, originalPath, newValue):
+                        valueGotSet = True
+                else:
+                    print("WARNING: When setting a value, non-dict {} found in incomplete path: {}".format(key, originalPath))
+        elif len(pathArray) == 1:
+            if pathElem in d:
+                print("Value applied: '{}' to value: {}".format(originalPath, newValue))
+                d[pathElem] = newValue
+                valueGotSet = True
+            else:
+                print("WARNING: When setting a value, path element {} not found in {}".format(pathElem, originalPath))
+        else:
+            if pathElem in d:
+                nextElem = d[pathElem]
+                if isinstance(nextElem, dict):
+                    if self.setSub(pathArray[1:], nextElem, originalPath, newValue):
+                        valueGotSet = True
+                else:
+                    print("WARNING: When setting a value, path element {} is not a dictionary in {}".format(pathElement, originalPath))
+            else:
+                print("WARNING: When setting a value, path element {} not found in {}".format(pathElem, originalPath))
+        return valueGotSet
+
+    def set(self, path, newValue):
+        pathArray = path.split('/')
+        return self.setSub(pathArray, self.json, path, newValue)
 
     def dump(self):
         prettyPrintDict(self.json)

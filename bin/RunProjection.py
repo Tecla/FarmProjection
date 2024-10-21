@@ -20,9 +20,10 @@ import Farm
 if __name__ == "__main__":
     # Set up program arguments
     parser = argparse.ArgumentParser(description="Run farm projection")
-    parser.add_argument('scenario', help="Scenario to run (in <datadir>/scenarios/<scenario>). Use 'all' to run all scenarios.")
+    parser.add_argument('scenarios', nargs='*', default='', help="Scenario to run (in <datadir>/scenarios/<scenario>). Use 'all' or leave blank to run all scenarios.")
     parser.add_argument('--datadir', default='', help="Data directory location with common and scenarios subdirectories")
     parser.add_argument('--reportdir', default='', help="Location to write reports to. If not specified, reports are written to <datadir>/reports")
+    parser.add_argument('--set', nargs=2, action='append', metavar=("INPUT", "VALUE"), help="Override a value from the scenario. The input is a path through the JSON values, e.g. structures/creamery/cost per sqft; so you may need to put the input path in quotes.")
     args = parser.parse_args()
 
     if not args.datadir or len(args.datadir) == 0:
@@ -43,13 +44,13 @@ if __name__ == "__main__":
         reportDir = args.reportdir
 
     scenariosList = []
-    if args.scenario is not None and args.scenario != 'all':
-        scenariosList = [ args.scenario ]
-    else:
+    if (args.scenarios is None) or (len(args.scenarios) == 0) or ('all' in args.scenarios):
         dirList = os.listdir(os.path.join(dataDir, 'scenarios'))
         for item in dirList:
             if os.path.isdir(os.path.join(dataDir, 'scenarios', item)):
                 scenariosList += [ item ]
+    else:
+        scenariosList = args.scenarios
 
     firstScenario = True
     for scenarioName in scenariosList:
@@ -58,7 +59,7 @@ if __name__ == "__main__":
         else:
             print('')
 
-        scenario = Farm.Scenario(os.path.join(dataDir, 'common'), os.path.join(dataDir, 'scenarios', scenarioName), defaultScenario)
+        scenario = Farm.Scenario(os.path.join(dataDir, 'common'), os.path.join(dataDir, 'scenarios', scenarioName), defaultScenario, args.set)
 
         report = Farm.GenerateReport(scenario)
         Farm.GenerateReportJson(report, os.path.join(reportDir, scenarioName + '.json'))

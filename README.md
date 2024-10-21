@@ -14,7 +14,7 @@ https://www.python.org/downloads/
 
 #### Linux and similar
 
-`python bin/RunProjection.py <scenario> [--datadir <directory>] [--reportdir <directory>]`
+`python bin/RunProjection.py [<scenario1>] [<scenario2>] ... [--datadir <directory>] [--reportdir <directory>] [--set <input> <value>]...`
 
 #### Windows
 
@@ -22,11 +22,15 @@ Run the `RunProjection.bat` batch file, and modify it to suit your situation. It
 
 You may also run without the batch file:
 
-`python bin\RunProjection.py <scenario> [--datadir <directory>] [--reportdir <directory>]`
+`python bin\RunProjection.py [<scenario1>] [<scenario2>] ... [--datadir <directory>] [--reportdir <directory>] [--set <input> <value>]...`
 
 ### Special arguments
 
 A special scenario named `all` can be specified, which will run all of the scenarios it can find in the `<datadir>/scenarios` subdirectory automatically and generate reports for each.
+
+You can override one or more input values with `--set <input path> <value>` and use that argument any number of times. For example, to override the "years running" value to be past the amortization years and see the projection out past when any fixed cost loans are paid off, you might do:
+
+`... RunProjection.py --set "farm/years running" 11`
 
 ### Results
 
