@@ -51,11 +51,13 @@ def storeCommonCostPerYear(s):
 
     cost = 0.0
     if fixedAmortizationActive:
+        totalFixedCosts = 0.0
         fixedCosts = s.get('store/fixed/* cost')
         if fixedCosts:
             for c in fixedCosts:
-                cost += c / float(amortizationYears) if amortizationYears > 0 else 0.0
-        cost += storeFacilityCost(s) / float(amortizationYears) if amortizationYears > 0 else 0.0
+                totalFixedCosts += c / float(amortizationYears) if amortizationYears > 0 else 0.0
+        cost += amortizedLoanPayment(totalFixedCosts, s.get('farm/fixed cost loan rate') * 0.01, amortizationYears * 12) * 12
+        cost += amortizedLoanPayment(storeFacilityCost(s), s.get('farm/facility loan rate') * 0.01, amortizationYears * 12) * 12
     yearlyCosts = s.get('store/yearly/* cost')
     if yearlyCosts:
         for c in yearlyCosts:

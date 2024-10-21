@@ -8,7 +8,8 @@
         "draining table cost": 2000,
         "cave setup cost": 5000,
         "molds cost": 500,
-        "churner cost": 0
+        "churner cost": 0,
+        "cream separator cost": 0
     },
     "yearly": {
         "cultures cost": 600,
@@ -28,6 +29,8 @@
         "butter milk pct": 0,
         "butter yield lbs per gallon": 3,
         "butter price per lb": 10,
+        "buttermilk yield gallons per gallon": 0.625,
+        "buttermilk price per gallon": 8.0,
 
         "cream milk pct": 0,
         "cream yield gallons per gallon": 1,
@@ -50,6 +53,8 @@
         "butter milk pct": 0,
         "butter yield lbs per gallon": 3,
         "butter price per lb": 10,
+        "buttermilk yield gallons per gallon": 0.625,
+        "buttermilk price per gallon": 8.0,
 
         "cream milk pct": 0,
         "cream yield gallons per gallon": 1,
@@ -72,6 +77,8 @@
         "butter milk pct": 0,
         "butter yield lbs per gallon": 3,
         "butter price per lb": 10,
+        "buttermilk yield gallons per gallon": 0.625,
+        "buttermilk price per gallon": 8.0,
 
         "cream milk pct": 0,
         "cream yield gallons per gallon": 1,

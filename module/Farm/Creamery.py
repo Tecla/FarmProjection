@@ -126,6 +126,22 @@ def butterSalesByAnimalPerYear(s, animal):
     return butterLbsByAnimalPerYear(s, animal) * pricePerLb
 
 
+def buttermilkGallonsByAnimalPerYear(s, animal):
+    butterGallonsProportion = s.get('creamery/{}/butter milk pct'.format(animal)) * 0.01
+    buttermilkGallonsYield = s.get('creamery/{}/buttermilk yield gallons per gallon'.format(animal))
+    buttermilkGallonsPerDay = milkGallonsPerDay(s, animal) * butterGallonsProportion * buttermilkGallonsYield
+    return buttermilkGallonsPerDay * 365.0
+
+
+def buttermilkGallonsByAnimalPerWeek(s, animal):
+    return buttermilkGallonsByAnimalPerYear(s, animal) * (7.0 / 365.0)
+
+
+def buttermilkSalesByAnimalPerYear(s, animal):
+    pricePerGallon = s.get('creamery/{}/buttermilk price per gallon'.format(animal))
+    return buttermilkGallonsByAnimalPerYear(s, animal) * pricePerGallon
+
+
 def butterSessionsPerWeek(s, animal):
     butterGallonsPerSession = s.get('creamery/butter session gal')
     butterGallonsPerYear = butterGallonsUsedByAnimalPerYear(s, animal)
@@ -245,11 +261,13 @@ def creameryCommonCostPerYear(s):
 
     cost = 0.0
     if fixedAmortizationActive:
+        totalFixedCosts = 0.0
         fixedCosts = s.get('creamery/fixed/* cost')
         if fixedCosts:
             for c in fixedCosts:
-                cost += c / float(amortizationYears) if amortizationYears > 0 else 0.0
-        cost += creameryFacilityCost(s) / float(amortizationYears) if amortizationYears > 0 else 0.0
+                totalFixedCosts += c
+            cost += amortizedLoanPayment(totalFixedCosts, s.get('farm/fixed cost loan rate') * 0.01, amortizationYears * 12) * 12
+        cost += amortizedLoanPayment(creameryFacilityCost(s), s.get('farm/facility loan rate') * 0.01, amortizationYears * 12) * 12
     yearlyCosts = s.get('creamery/yearly/* cost')
     if yearlyCosts:
         for c in yearlyCosts:
@@ -278,6 +296,7 @@ def creameryGrossIncomeByAnimalPerYear(s, animal):
     sales += creamSalesByAnimalPerYear(s, animal)
     sales += iceCreamSalesByAnimalPerYear(s, animal)
     sales += butterSalesByAnimalPerYear(s, animal)
+    sales += buttermilkSalesByAnimalPerYear(s, animal)
     sales += yogurtSalesByAnimalPerYear(s, animal)
     return sales
 

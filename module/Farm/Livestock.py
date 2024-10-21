@@ -142,11 +142,14 @@ def livestockCommonCostPerYear(s):
 
     cost = 0.0
     if fixedAmortizationActive:
+        totalFixedCosts = 0.0
         fixedCosts = s.get('farm/fixed/* cost')
-        for c in fixedCosts:
-            cost += c / float(amortizationYears) if amortizationYears > 0 else 0.0
-        cost += barnCost(s) / float(amortizationYears) if amortizationYears > 0 else 0.0
-        cost += livestockFenceCost(s) / float(amortizationYears) if amortizationYears > 0 else 0.0
+        if fixedCosts:
+            for c in fixedCosts:
+                totalFixedCosts += c
+        totalFixedCosts += livestockFenceCost(s)
+        cost += amortizedLoanPayment(totalFixedCosts, s.get('farm/fixed cost loan rate') * 0.01, amortizationYears * 12) * 12
+        cost += amortizedLoanPayment(barnCost(s), s.get('farm/facility loan rate') * 0.01, amortizationYears * 12) * 12
     yearlyCosts = s.get('farm/yearly/* cost')
     for c in yearlyCosts:
         cost += c
