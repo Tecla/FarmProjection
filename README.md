@@ -1,6 +1,6 @@
 # Farm Projection
 
-Farm and dairy financial and product projections and planning
+Farm and dairy financial and product projections and planning software.
 
 ## Usage and Requirements
 
