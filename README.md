@@ -2,7 +2,7 @@
 
 Farm and dairy financial and product projections and planning software.
 
-(C) 2024 by Tecla
+(C) 2024 by Tecla, all rights reserved.
 
 ## Usage and Requirements
 
