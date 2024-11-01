@@ -28,15 +28,13 @@ You may also run without the batch file:
 
 A special scenario named `all` can be specified, which will run all of the scenarios it can find in the `<datadir>/scenarios` subdirectory automatically and generate reports for each.
 
-You can override one or more input values with `--set <input path> <value>` and use that argument any number of times. For example, to override the "years running" value to be past the amortization years and see the projection out past when any fixed cost loans are paid off, you might do:
+You can override one or more input values with `--set <input path> <value>` and use that argument any number of times. For example, to override the "years running" value to be past the amortization years and see the projection out past when any fixed cost loans are paid off, you might add the following command-line option:
 
-`... RunProjection.py --set "farm/years running" 11`
+`--set "farm/years running" 11`
 
 ### Results
 
-Reports will be generated in the `<datadir>/reports` subdirectory unless the `--reportdir` argument is given. Both a JSON output file and an HTML file are generated for your viewing.
-
-You are encouraged to copy the data directory and customize the inputs to your needs, and then you can run with the `--datadir <path/to/data>` option for your own scenarios.
+Reports will be generated in the `<datadir>/reports` subdirectory unless the `--reportdir` argument is given. See the ***Reports*** section for more information on what the reports contain.
 
 ## Scenarios
 
@@ -72,6 +70,8 @@ More will be added in the future. The current complete set of operational inputs
 
 Scenarios support adding multiple kinds of livestock. If one is added but zero animals are set for the input, the projection will flow through without them without issue.
 
+You are encouraged to copy the data directory and customize the inputs to your needs, and then you can run with the `--datadir` command-line option to analyze your own scenarios.
+
 ## What It Doesn't Do
 
 There are numerous areas missing from the projections at this point; this is, for a first pass, quite dairy-centric (and a raw-milk dairy at that). Various things not taken into account yet:
@@ -88,14 +88,14 @@ There are bound to be more. We will add computational workflows and make availab
 
 ## Reports
 
-Running the projection is most useful when reports are enabled. The results of the projection can be output to JSON format, HTML or both. The report files are written and automatically add the .json or .html file extension.
+The results of the projection are output to JSON and HTML files in the report directory (see the `--reportdir` command line option). One pair of JSON and HTML files are written for each projected scenario.
 
-Reports currently generate information on potential product output (livestock sold, milk sold, cheese sold, etc), employee pay and hours, and of course an estimate of the final bottom line that is left for the farm owner.
+Reports currently generate information on potential product output (livestock sold, milk sold, cheese sold, etc), various production metrics and requirements, estimated employee pay and hours, and of course an estimate of the final bottom line that is left for the farm owner.
 
 ### Warnings
 
-**Please keep in mind that this is only an estimate, and real-world situations and financial numbers could vary significantly from these projections.** This is only an exploration tool to get a feel for what is possible and to narrow down your planning.
+**Please keep in mind that the projections are only estimates, and real-world situations and financial numbers could vary significantly from these projections.** This is only an exploration tool to get a feel for what is possible and to narrow down your planning.
 
 ## Contributing
 
-Contributions, issues, etc are welcome. The only rule is that the project owner makes the rules, and there is no appeal from his decisions. Be humble, AKA don't be a dick, and all will go well for everyone.
+Contributions, issues, etc to the project are welcome. The only rule is that the project owner makes the rules, and there is no appeal from his decisions. Be humble, AKA don't be a dick, and all will go well for everyone.
