@@ -2,6 +2,8 @@
 
 Farm and dairy financial and product projections and planning software.
 
+(C) 2024 by Tecla
+
 ## Usage and Requirements
 
 ### Requires python 3.x
@@ -74,17 +76,17 @@ You are encouraged to copy the data directory and customize the inputs to your n
 
 ## What It Doesn't Do
 
-There are numerous areas missing from the projections at this point; this is, for a first pass, quite dairy-centric (and a raw-milk dairy at that). Various things not taken into account yet:
+There are numerous areas missing from the projections at this point; this is, for a first pass, quite dairy-centric (and a raw-milk dairy at that). Various aspects not taken into account yet:
 
-* Kill, butchery, and meat shop costs and income (planned)
-* Culinary water / well cost (planned)
-* Irrigation water cost (planned)
-* Fuel and transportation cost (planned)
-* Grain and garden operational costs and income (planned)
+* *(planned)* Kill, butchery, and meat shop costs and income
+* *(planned)* Culinary water / well cost
+* *(planned)* Irrigation water cost
+* *(planned)* Fuel and transportation cost
+* *(planned)* Grain and garden operational costs and income
 * Land cost
 * Home and other personal costs (e.g. this is not for personal budgeting!)
 
-There are bound to be more. We will add computational workflows and make available inputs for these types of costs in future development.
+There are bound to be more. We may add computational workflows and make available inputs for these types of costs in future development.
 
 ## Reports
 
@@ -92,10 +94,16 @@ The results of the projection are output to JSON and HTML files in the report di
 
 Reports currently generate information on potential product output (livestock sold, milk sold, cheese sold, etc), various production metrics and requirements, estimated employee pay and hours, and of course an estimate of the final bottom line that is left for the farm owner.
 
-### Warnings
+## Caveats
 
 **Please keep in mind that the projections are only estimates, and real-world situations and financial numbers could vary significantly from these projections.** This is only an exploration tool to get a feel for what is possible and to narrow down your planning.
 
+### The Usual Disclaimer
+
+Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 ## Contributing
 
-Contributions, issues, etc to the project are welcome. The only rule is that the project owner makes the rules, and there is no appeal from his decisions. Be humble, AKA don't be a dick, and all will go well for everyone.
+Contributions, issues, etc to the project are welcome. You may be asked to assign copyright to Tecla if you contribute code or documentation or other resources. The only rule is that the project owner makes the rules, and there is no appeal from his decisions. Be humble, AKA don't be a dick, and all will go well for everyone.
