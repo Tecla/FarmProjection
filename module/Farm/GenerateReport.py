@@ -27,7 +27,9 @@ def GenerateReport(scenario):
     amortizationYears = s.get('farm/amortization years')
     currentYear = s.get('farm/years running')
     fixedAmortizationActive = True if currentYear <= amortizationYears else False
-    root['Farm']['Acres needed'] = neededAcres(s)
+    root['Farm']['Acres needed'] = round(neededAcres(s), 1)
+    root['Farm']['Irrigation in acre-feet'] = round(totalIrrigationWaterAcreFeet(s), 2)
+    root['Farm']['Soil productivity'] = '{}%'.format(round(soilProductivityProportion(s) * 100, 1))
     root['Farm']['Months on pasture'] = s.get('farm/pasture/months')
     root['Farm']['Fixed costs paid off'] = 'No' if fixedAmortizationActive else 'Yes'
     root['Farm']['Fixed costs year'] = '{} of {}'.format(currentYear, amortizationYears)
@@ -35,6 +37,7 @@ def GenerateReport(scenario):
     # Livestock report
     animals = livestockList(s)
     root['Livestock']['Animals'] = animals
+    root['Livestock']['Total AUs'] = round(totalAUs(s), 1)
     root['Livestock']['Barn cost'] = dollars(barnCost(s))
     root['Livestock']['Barn sqft'] = round(barnSqft(s), 0)
     root['Livestock']['Fence cost'] = dollars(livestockFenceCost(s))
@@ -42,6 +45,9 @@ def GenerateReport(scenario):
     for a in animals:
         root['Livestock'][a] = {}
         root['Livestock'][a]['Head'] = livestockTotal(s, a)
+        root['Livestock'][a]['AUs'] = round(perAnimalAUs(s, a), 1)
+        root['Livestock'][a]['Acres per animal'] = round(neededAcresByAnimal(s, a) / livestockTotal(s, a) if livestockTotal(s, a) > 0.0 else 0.0, 2)
+        root['Livestock'][a]['Animals per acre'] = round(livestockTotal(s, a) / neededAcresByAnimal(s, a)  if neededAcresByAnimal(s, a) > 0.0 else 0.0, 2)
         offspringName = s.get('livestock/{}/offspring name'.format(a))
         root['Livestock'][a]['{} born'.format(offspringName)] = offspringPerYear(s, a)
         root['Livestock'][a]['Cost per year'] = dollars(livestockCostPerYear(s, a))

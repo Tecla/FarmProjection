@@ -3,10 +3,12 @@
         "fixed": {
         },
         "yearly": {
-            "hay tons": 0.0,
             "offspring": 0
         },
-        "acres": 0.0,
+        "hay pct of bodyweight daily": 0.0,
+        "weaned offspring AUs": 0.0,
+        "female AUs": 0.0,
+        "male AUs": 0.0,
         "amortization years": 0,
         "barn sqft": 0,
         "bedding depth inches": 0,
@@ -21,18 +23,21 @@
         "offspring price": 0,
 
         "__comments__": [
-            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation.",
-            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
+            "The acres required is based on management intensive grazing / frequent paddock moves, and calculated AUMs from soil fertility and total water available.",
+            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up.",
+            "AUs (animal units) are based on roughly 1 unit per 1000 lbs live weight, with a calf for females."
         ]
     },
     "ewe": {
         "fixed": {
         },
         "yearly": {
-            "hay tons": 0.0,
             "offspring": 0
         },
-        "acres": 0.0,
+        "hay pct of bodyweight daily": 0.0,
+        "weaned offspring AUs": 0.0,
+        "female AUs": 0.0,
+        "male AUs": 0.0,
         "amortization years": 0,
         "barn sqft": 0,
         "bedding depth inches": 0,
@@ -47,18 +52,21 @@
         "offspring price": 0,
 
         "__comments__": [
-            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation.",
-            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
+            "The acres required is based on management intensive grazing / frequent paddock moves, and calculated AUMs from soil fertility and total water available.",
+            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up.",
+            "AUs (animal units) are based on roughly 1 unit per 1000 lbs live weight, with a pair of lambs for females."
         ]
     },
     "goat": {
         "fixed": {
         },
         "yearly": {
-            "hay tons": 0.0,
             "offspring": 0
         },
-        "acres": 0.0,
+        "hay pct of bodyweight daily": 0.0,
+        "weaned offspring AUs": 0.0,
+        "female AUs": 0.0,
+        "male AUs": 0.0,
         "amortization years": 0,
         "barn sqft": 0,
         "bedding depth inches": 0,
@@ -73,8 +81,9 @@
         "offspring price": 0,
 
         "__comments__": [
-            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation.",
-            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
+            "The acres required is based on management intensive grazing / frequent paddock moves, and calculated AUMs from soil fertility and total water available.",
+            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up.",
+            "AUs (animal units) are based on roughly 1 unit per 1000 lbs live weight, with a kid for females."
         ]
     }
 }

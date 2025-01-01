@@ -3,27 +3,69 @@
 from .Utilities import *
 
 
-def neededAcresByAnimal(s, animal):
+def perAcreAUMs(s):
+    # "Enough" water for a productive pasture is defined as equivalent of 20 inches of precipitation
+    # This can be achieved by rain, snow, or irrigation
+    precipitationInches = s.get('farm/pasture/precipitation inches per year')
+    irrigationInches = s.get('farm/pasture/irrigation inches per year')
+    totalInches = precipitationInches + irrigationInches
+    fertilityProportion = s.get('farm/pasture/soil fertility')
+
+    # Forage production AUMs per year based on: https://extension.usu.edu/smallfarms/research/forage-needs
+
+    # Up to 10 AUMs per acre on very fertile soil, up to about 5 on poor soil (fertility proportion 0.5)
+    perAcreAUMs = 10.0 * fertilityProportion
+    # Water AUMs multiplier ranges from about 0.1 at 12 inches of water per year to 1.0 at 20 inches of water
+    # Equation is (clamped between 0.0 and 1.0): modifier = 9*inches/80 - 1.25
+    waterAUMMod = totalInches * (9.0 / 80.0) - 1.25
+    if waterAUMMod < 0.0:
+        waterAUMMod = 0.0
+    elif waterAUMMod > 1.0:
+        waterAUMMode = 1.0
+    perAcreAUMs *= waterAUMMod
+    return perAcreAUMs
+
+def soilProductivityProportion(s):
+    return perAcreAUMs(s) / 10.0
+
+def perAnimalAUs(s, animal):
     existingFemales = s.get('livestock/{}/existing females'.format(animal))
     purchasedFemales = s.get('livestock/{}/purchased females'.format(animal))
     existingMales = s.get('livestock/{}/existing males'.format(animal))
     purchasedMales = s.get('livestock/{}/purchased males'.format(animal))
-    acresPerHead = s.get('livestock/{}/acres'.format(animal))
-    acresTotal = (existingFemales + purchasedFemales + existingMales + purchasedMales) * float(acresPerHead)
-    return acresTotal
+    offspringPerFemale = s.get('livestock/{}/yearly/offspring'.format(animal))
+    maleAUs = s.get('livestock/{}/male AUs'.format(animal))
+    femaleAUs = s.get('livestock/{}/female AUs'.format(animal))
+    offspringAUs = s.get('livestock/{}/weaned offspring AUs'.format(animal))
+    totalAUs = maleAUs * (existingMales + purchasedMales) + femaleAUs * (existingFemales + purchasedFemales) + offspringAUs * ((existingFemales + purchasedFemales) * offspringPerFemale)
+    return totalAUs
 
+def totalAUs(s):
+    total = 0.0
+    animals = livestockList(s)
+    for animal in animals:
+        total += perAnimalAUs(s, animal)
+    return total
+
+def neededAcresByAnimal(s, animal):
+    totalAUs = perAnimalAUs(s, animal)
+    acresPerAUM = perAcreAUMs(s)
+    monthsOnPasture = s.get('farm/pasture/months')
+    # Total acres needed is AUs * months-on-pasture / AUMs-per-acre
+    acresTotal = totalAUs * monthsOnPasture / acresPerAUM if acresPerAUM > 0.0 else 0.0
+    return acresTotal
 
 def neededAcres(s):
     acresTotal = 0.0
     animals = livestockList(s)
     for animal in animals:
-        existingFemales = s.get('livestock/{}/existing females'.format(animal))
-        purchasedFemales = s.get('livestock/{}/purchased females'.format(animal))
-        existingMales = s.get('livestock/{}/existing males'.format(animal))
-        purchasedMales = s.get('livestock/{}/purchased males'.format(animal))
-        acresPerHead = s.get('livestock/{}/acres'.format(animal))
-        acresTotal += (existingFemales + purchasedFemales + existingMales + purchasedMales) * float(acresPerHead)
+        acresTotal += neededAcresByAnimal(s, animal)
     return acresTotal
+
+def totalIrrigationWaterAcreFeet(s):
+    totalAcres = neededAcres(s)
+    irrigationInches = s.get('farm/pasture/irrigation inches per year')
+    return totalAcres * irrigationInches / 12.0
 
 
 def livestockBeddingCost(s, animal):
@@ -38,9 +80,18 @@ def livestockBeddingCost(s, animal):
 
 
 def livestockHayCost(s, animal):
-    hayTons = s.get('livestock/{}/yearly/hay tons'.format(animal))
+    hayPercentOfBodyweight = s.get('livestock/{}/hay pct of bodyweight daily'.format(animal))
     monthsOnPasture = s.get('farm/pasture/months')
     hayCostPerTon = s.get('farm/feed/premium hay cost per ton')
+    animalAUs = perAnimalAUs(s, animal)
+    totalAnimals = livestockTotal(s, animal) + offspringPerYear(s, animal)
+    # Rough estimate of hay requirements per lb of body weight for the whole year
+    hayLbs = animalAUs * 1000.0 * hayPercentOfBodyweight * 365.0
+    if totalAnimals > 0.0:
+        hayLbs /= totalAnimals
+    else:
+        hayLbs = 0.0
+    hayTons = hayLbs / 2000.0
 
     return (hayCostPerTon * hayTons / 2.0) * (1.0 - monthsOnPasture / 12.0)
 
@@ -198,6 +249,11 @@ def livestockCommonCostProportion(s, animal, method=None):
         for a in livestockList(s):
             totalTime += s.get('livestock/{}/hours per week'.format(a))
         return animalTime / totalTime if totalTime > 0 else 0.0
+    elif method == 'blended':
+        costProp = livestockCommonCostProportion(s, animal, 'animal cost')
+        spaceProp = livestockCommonCostProportion(s, animal, 'animal space')
+        timeProp = livestockCommonCostProportion(s, animal, 'animal time')
+        return (costProp + spaceProp + timeProp) / 3.0
     else:
         print("Unkown livestock common cost method: {}".format(method))
         return 0.0

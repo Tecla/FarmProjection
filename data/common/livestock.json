@@ -3,13 +3,15 @@
         "fixed": {
         },
         "yearly": {
-            "hay tons": 2.5,
             "grain cost": 80,
             "breeding cost": 50,
             "misc cost": 50,
             "offspring": 1
         },
-        "acres": 1.75,
+        "hay pct of bodyweight daily": 0.02,
+        "weaned offspring AUs": 0.6,
+        "female AUs": 1.0,
+        "male AUs": 1.5,
         "amortization years": 5,
         "barn sqft": 32,
         "bedding depth inches": 12,
@@ -25,27 +27,30 @@
 
         "__comments__": [
             "These numbers are based on premium jersey dairy cows, bred once per year, with 2-3 dry months between cycles.",
-            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation.",
-            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
+            "The acres required is based on management intensive grazing / frequent paddock moves, and calculated AUMs from soil fertility and total water available.",
+            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up.",
+            "AUs (animal units) are based on roughly 1 unit per 1000 lbs live weight, with a calf for females."
         ]
     },
     "ewe": {
         "fixed": {
         },
         "yearly": {
-            "hay tons": 1,
             "grain cost": 30,
             "breeding cost": 50,
             "misc cost": 25,
             "offspring": 2
         },
-        "acres": 0.25,
+        "hay pct of bodyweight daily": 0.05,
+        "weaned offspring AUs": 0.1,
+        "female AUs": 0.2,
+        "male AUs": 0.25,
         "amortization years": 5,
         "barn sqft": 16,
         "bedding depth inches": 8,
         "bedding refreshes": 3,
         "milk stand sqft": 40,
-        "peak gallons": 0.25,
+        "peak gallons": 0.3,
         "dry months": 4,
         "offspring name": "lambs",
         "male name": "rams",
@@ -55,21 +60,24 @@
 
         "__comments__": [
             "These numbers are based on Katadin or crossed hair sheep, bred twice per year, 4 months in milk 2 months off each cycle.",
-            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation.",
-            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
+            "The acres required is based on management intensive grazing / frequent paddock moves, and calculated AUMs from soil fertility and total water available.",
+            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up.",
+            "AUs (animal units) are based on roughly 1 unit per 1000 lbs live weight, with a pair of lambs for females."
         ]
     },
     "goat": {
         "fixed": {
         },
         "yearly": {
-            "hay tons": 1,
             "grain cost": 30,
             "breeding cost": 50,
             "misc cost": 25,
             "offspring": 2
         },
-        "acres": 0.25,
+        "hay pct of bodyweight daily": 0.06,
+        "weaned offspring AUs": 0.1,
+        "female AUs": 0.2,
+        "male AUs": 0.25,
         "amortization years": 5,
         "barn sqft": 16,
         "bedding depth inches": 8,
@@ -85,8 +93,9 @@
 
         "__comments__": [
             "These numbers are based on Nigerian dwarf goats, bred twice per year, 4 months in milk 2 months off each cycle.",
-            "The acres required is based on management intensive grazing / frequent paddock moves, and good rainfall or supplemental irrigation.",
-            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up."
+            "The acres required is based on management intensive grazing / frequent paddock moves, and calculated AUMs from soil fertility and total water available.",
+            "You may add per-animal costs in the fixed or yearly categories simply by adding an item, but make sure it ends in the word 'cost' to be automatically picked up.",
+            "AUs (animal units) are based on roughly 1 unit per 1000 lbs live weight, with a kid for females."
         ]
     }
 }

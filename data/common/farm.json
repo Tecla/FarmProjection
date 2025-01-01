@@ -1,6 +1,9 @@
 {
     "pasture": {
-        "months": 8
+        "months": 8,
+        "soil fertility": 0.85,
+        "precipitation inches per year": 15.0,
+        "irrigation inches per year": 5.0
     },
     "feed": {
         "premium hay cost per ton": 200,
@@ -11,8 +14,8 @@
         "temporary fence cost per ft": 1.2,
         "corral fence cost per ft": 17.0
     },
-    "facility cost split methods": [ "animal cost", "animal space", "animal time" ],
-    "facility cost split method": "animal space",
+    "facility cost split methods": [ "animal cost", "animal space", "animal time", "blended" ],
+    "facility cost split method": "blended",
     "facility loan rate": 8.0,
     "fixed cost loan rate": 8.0,
     "amortization years": 10,
@@ -21,6 +24,8 @@
     "__comments__": [
         "Hay numbers are based on Utah hay prices and typical months on pasture.",
         "The fixed costs are calculated as part of a loan over the amortization years with the specified yearly percentage rate. Set the scenario years running input to higher than the amortization years to see the fixed costs drop off.",
-        "Permanent price per feet is based on 8-ft high-tensile field fencing anchored with 10-ft t-posts. Temp fencing is based on 4-ft pos/neg electric netting capable of holding goats, etc."
+        "Permanent price per feet is based on 8-ft high-tensile field fencing anchored with 10-ft t-posts. Temp fencing is based on 4-ft pos/neg electric netting capable of holding goats, etc.",
+        "Forage AUMs per acre is calculated from soil fertility and total water available on https://extension.usu.edu/smallfarms/research/forage-needs",
+        "Soil fertility is based on 0.0 meaning no grasses will grow; to 1.0 meaning slightly acidic pH (6.7-7.0) and all macro and micro nutrients available, 8% or more organic matter and plenty of sunshine"
     ]
 }
