@@ -116,7 +116,7 @@
 
     "employee": {
         "min pay per hour": 20,
-        "max pay per hour": 30
+        "max pay per hour": 25
     },
 
     "creamery sqft": 400

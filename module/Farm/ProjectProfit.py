@@ -65,7 +65,7 @@ def ProjectProfit(scenario, scenarioName):
     print('')
     print('Scenario: {}'.format(scenarioName))
     print('')
-    print("Total acres needed: {}".format(neededAcres(s)))
+    print("Total acres needed: {}".format(round(neededAcres(s), 2)))
     print('')
 
     butterLbs = 0
