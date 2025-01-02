@@ -10,4 +10,4 @@ set "FARMPROJECTION_ROOT=%cd%"
 set SCENARIO=all
 set "DATADIR=%FARMPROJECTION_ROOT%\data"
 
-python.exe %SCENARIO% "--datadir=%DATADIR%"
+python.exe %FARMPROJECTION_ROOT%\bin\RunProjection.py %SCENARIO% "--datadir=%DATADIR%"
