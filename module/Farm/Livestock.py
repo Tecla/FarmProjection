@@ -2,6 +2,8 @@
 
 from .Utilities import *
 
+import math
+
 
 def perAcreAUMs(s):
     # "Enough" water for a productive pasture is defined as equivalent of 20 inches of precipitation
@@ -62,6 +64,21 @@ def neededAcres(s):
         acresTotal += neededAcresByAnimal(s, animal)
     return acresTotal
 
+def livestockPaddocks(s):
+    # Based on https://attra.ncat.org/publication/irrigated-pastures-setting-up-an-intensive-grazing-system-that-works/
+    rotationDays = s.get('farm/pasture/paddock rotation in days')
+    recoveryDays = s.get('farm/pasture/paddock recovery in days')
+    if rotationDays <= 0.0:
+        return 0.0
+    paddocks = math.ceil(recoveryDays / rotationDays) + 1
+    return paddocks
+
+def livestockPaddockSize(s, animal):
+    acres = neededAcresByAnimal(s, animal)
+    paddocks = livestockPaddocks(s)
+    return acres / paddocks if paddocks > 0.0 else 0.0
+
+
 def totalIrrigationWaterAcreFeet(s):
     totalAcres = neededAcres(s)
     irrigationInches = s.get('farm/pasture/irrigation inches per year')
@@ -78,11 +95,10 @@ def livestockBeddingCost(s, animal):
     cubicInchesOfBale = 14 * 18 * 36
     return float(cheapBaleCost) * float(cubicInchesOfBedding) / float(cubicInchesOfBale)
 
-
-def livestockHayCost(s, animal):
+def livestockHayTons(s, animal, perHead=True):
     hayPercentOfBodyweight = s.get('livestock/{}/hay pct of bodyweight daily'.format(animal))
     monthsOnPasture = s.get('farm/pasture/months')
-    hayCostPerTon = s.get('farm/feed/premium hay cost per ton')
+    hayWastePct = s.get('farm/feed/premium hay waste pct')
     animalAUs = perAnimalAUs(s, animal)
     totalAnimals = livestockTotal(s, animal) + offspringPerYear(s, animal)
     # Rough estimate of hay requirements per lb of body weight for the whole year
@@ -92,9 +108,23 @@ def livestockHayCost(s, animal):
     else:
         hayLbs = 0.0
     hayTons = hayLbs / 2000.0
+    hayTons /= 1.0 + hayWastePct
+    hayTons *= 1.0 - monthsOnPasture / 12.0
+    if perHead:
+        return hayTons
+    else:
+        return hayTons * totalAnimals
 
-    return (hayCostPerTon * hayTons / 2.0) * (1.0 - monthsOnPasture / 12.0)
+def livestockHayCost(s, animal):
+    hayCostPerTon = s.get('farm/feed/premium hay cost per ton')
+    return hayCostPerTon * livestockHayTons(s, animal)
 
+def livestockTotalHayTons(s):
+    total = 0.0
+    animals = livestockList(s)
+    for animal in animals:
+        total += livestockHayTons(s, animal, False)
+    return total
 
 def livestockCostPerYear(s, animal):
     maleCount = livestockAdultMales(s, animal)

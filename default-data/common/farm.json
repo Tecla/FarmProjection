@@ -3,10 +3,13 @@
         "months": 0,
         "soil fertility": 0.0,
         "precipitation inches per year": 0.0,
-        "irrigation inches per year": 0.0
+        "irrigation inches per year": 0.0,
+        "paddock rotation in days": 0.0,
+        "paddock recovery in days": 0.0
     },
     "feed": {
         "premium hay cost per ton": 0,
+        "premium hay waste pct": 0,
         "cheap hay cost per small bale": 0
     },
     "fence": {
@@ -22,6 +25,7 @@
     "animals": [ "cow", "ewe", "goat" ],
 
     "__comments__": [
+        "Paddock times are based on recommended management-intensive grazing practices and grass+legume recovery times in summer.",
         "These numbers are based on Utah hay prices and typical months on pasture.",
         "The fixed costs are calculated as part of a loan over the amortization years with the specified yearly percentage rate. Set the scenario years running input to higher than the amortization years to see the fixed costs drop off.",
         "Permanent price per feet is based on 8-ft high-tensile field fencing anchored with 10-ft t-posts. Temp fencing is based on 4-ft pos/neg electric netting capable of holding goats, etc.",
