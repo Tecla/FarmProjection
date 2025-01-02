@@ -56,11 +56,11 @@ Each scenario combined with the common inputs describes multiple parts of the fa
 * `creamery.json`
   * Supports sales of butter, cheese, cream, buttermilk, ice cream, and yogurt
 * `farm.json`
-  * Loan rates and costs for facilities and major fixed expenses
+  * Loan rates, costs for facilities, major fixed expenses; soil, paddock, water and hay
 * `livestock.json`
-  * Supports offspring sales (but not meat sales yet)
+  * Supports offspring sales (but not meat sales yet), animal units and offspring, forage needs, milk produced, space needed
 * `milk.json`
-  * Supports standard bottled milk sales for dairy
+  * Supports standard bottled milk sales and costs for dairy
 * `store.json`
   * Supports sales of third part items in addition to all sales above
 * `structures.json`
@@ -68,15 +68,15 @@ Each scenario combined with the common inputs describes multiple parts of the fa
 * `taxes.json`
   * USA-based tax rates and tables
 
-More will be added in the future. The current complete set of operational inputs are contained in the example scenarios, so to create your own you should copy an existing scenario and modify it to suit your own projections. Note that you do not have to provide every input in your scenario, it will fall back to a default (zero, empty) input if you omit one. Also note that an input can be provided in a JSON file common to all your scenarios, or it can be provided in each individual scenario, it doesn't matter which you choose. But currently you cannot provide an input in both locations without generating an error.
+More will be added in the future. The current complete set of operational inputs are contained in the example scenarios, so to create your own you should copy an existing dataset and modify it to suit your own projections. Note that you do not have to provide every input in your scenario, it will fall back to a default (zero, empty) input if you omit one. Also note that an input can be provided in a JSON file common to all your scenarios, or it can be provided in each individual scenario, it doesn't matter which you choose. But currently you cannot provide an input in both locations without generating an error.
 
-Scenarios support adding multiple kinds of livestock. If one is added but zero animals are set for the input, the projection will flow through without them without issue.
+Scenarios support adding multiple kinds of livestock. If one is added but zero animals are set for the input, the projection will flow through sans that animal type without issue.
 
 You are encouraged to copy the data directory and customize the inputs to your needs, and then you can run with the `--datadir` command-line option to analyze your own scenarios.
 
 ## What It Doesn't Do
 
-There are numerous areas missing from the projections at this point; this is, for a first pass, quite dairy-centric (and a raw-milk dairy at that). Various aspects not taken into account yet:
+There are numerous areas missing from the projections at this point; this is fairly dairy-centric at the moment (with default for a raw milk dairy). Various aspects not taken into account yet:
 
 * *(planned)* Kill, butchery, and meat shop costs and income
 * *(planned)* Culinary water / well cost
@@ -86,7 +86,7 @@ There are numerous areas missing from the projections at this point; this is, fo
 * Land cost
 * Home and other personal costs (e.g. this is not for personal budgeting!)
 
-There are bound to be more. We may add computational workflows and make available inputs for these types of costs in future development.
+We may add computational workflows and make available inputs for these types of costs in future development. There are bound to be more areas needing attention; your feedback is appreciated.
 
 ## Reports
 
@@ -96,7 +96,7 @@ Reports currently generate information on potential product output (livestock so
 
 ## Caveats
 
-**Please keep in mind that the projections are only estimates, and real-world situations and financial numbers could vary significantly from these projections.** This is only an exploration tool to get a feel for what is possible and to narrow down your planning.
+**Please keep in mind that the projections are only estimates, and real-world situations and results could vary significantly from these projections.** This is an exploration tool to get a feel for what is possible and to narrow down your planning.
 
 ### The Usual Disclaimer
 
