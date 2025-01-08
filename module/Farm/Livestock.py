@@ -5,6 +5,27 @@ from .Utilities import *
 import math
 
 
+def desiredWaterInches(s):
+    peakTemperature = s.get('farm/pasture/peak temperature')
+    peakDailyInches = s.get('farm/pasture/peak daily water inches')
+    monthsOnPasture = s.get('farm/pasture/months')
+
+    # The amount of water needed goes from zero at the beginning of the growing season to the peak holding
+    # during all of July, and then tapers back down to zero again at the end of the growing season.
+    # Pasture plants need about 0.1 inches of water per day for 70 degrees F or less during the peak,
+    # going up to about 0.3 inches/day at 100 F or more.
+    minInches = peakDailyInches / 3.0
+    maxInches = peakDailyInches
+    inchesPerDayProportion = (peakTemperature - 70.0) / (100.0 - 70.0)
+    inchesPerDayPeak = minInches + inchesPerDayProportion * (maxInches - minInches)
+    if inchesPerDayPeak < minInches:
+        inchesPerDayPeak = minInches
+    elif inchesPerDayPeak > maxInches:
+        inchesPerDayPeak = maxInches
+    peakWaterDays = (monthsOnPasture - 1.0) * 0.5 * (365.0 / 12.0) + 31.0
+    neededWaterInches = inchesPerDayPeak * peakWaterDays
+    return neededWaterInches
+
 def perAcreAUMs(s):
     # "Enough" water for a productive pasture is defined as equivalent of 20 inches of precipitation
     # This can be achieved by rain, snow, or irrigation
@@ -16,16 +37,17 @@ def perAcreAUMs(s):
     # Forage production AUMs per year based on: https://extension.usu.edu/smallfarms/research/forage-needs
 
     # Up to 10 AUMs per acre on very fertile soil, up to about 5 on poor soil (fertility proportion 0.5)
-    perAcreAUMs = 10.0 * fertilityProportion
-    # Water AUMs multiplier ranges from about 0.1 at 12 inches of water per year to 1.0 at 20 inches of water
-    # Equation is (clamped between 0.0 and 1.0): modifier = 9*inches/80 - 1.25
-    waterAUMMod = totalInches * (9.0 / 80.0) - 1.25
+    soilAUMs = 10.0 * fertilityProportion
+    neededWaterInches = desiredWaterInches(s)
+    minimumWaterInches = neededWaterInches / 4.0
+    # Water AUMs multiplier ranges from about 0.0 at 'neededWaterInches'/4 inches of water per year to 1.0 at 'neededWaterInches' of water
+    waterAUMMod = smoothstep(minimumWaterInches, neededWaterInches, totalInches)
     if waterAUMMod < 0.0:
         waterAUMMod = 0.0
     elif waterAUMMod > 1.0:
         waterAUMMode = 1.0
-    perAcreAUMs *= waterAUMMod
-    return perAcreAUMs
+    totalAUMs = soilAUMs * waterAUMMod
+    return totalAUMs
 
 def soilProductivityProportion(s):
     return perAcreAUMs(s) / 10.0
@@ -83,6 +105,18 @@ def totalIrrigationWaterAcreFeet(s):
     totalAcres = neededAcres(s)
     irrigationInches = s.get('farm/pasture/irrigation inches per year')
     return totalAcres * irrigationInches / 12.0
+
+
+def desiredAdditionalIrrigationWaterAcreFeet(s):
+    precipitationInches = s.get('farm/pasture/precipitation inches per year')
+    irrigationInches = s.get('farm/pasture/irrigation inches per year')
+
+    totalAcres = neededAcres(s)
+    neededWaterInches = desiredWaterInches(s)
+    remainingWaterInches = neededWaterInches - precipitationInches - irrigationInches
+    if remainingWaterInches <= 0.0:
+        remainingWaterInches = 0.0
+    return totalAcres * remainingWaterInches / 12.0
 
 
 def livestockBeddingCost(s, animal):

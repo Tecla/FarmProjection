@@ -2,6 +2,8 @@
     "pasture": {
         "months": 0,
         "soil fertility": 0.0,
+        "peak temperature": 0.0,
+        "peak daily water inches": 0.0,
         "precipitation inches per year": 0.0,
         "irrigation inches per year": 0.0,
         "paddock rotation in days": 0.0,
@@ -25,6 +27,7 @@
     "animals": [ "cow", "ewe", "goat" ],
 
     "__comments__": [
+        "Peak daily water inches is water uptake by plants for pasture in 100 F heat in July: 0.3 for cooler-season grasses, and closer to 0.2 for warm-season grasses.",
         "Paddock times are based on recommended management-intensive grazing practices and grass+legume recovery times in summer.",
         "These numbers are based on Utah hay prices and typical months on pasture.",
         "The fixed costs are calculated as part of a loan over the amortization years with the specified yearly percentage rate. Set the scenario years running input to higher than the amortization years to see the fixed costs drop off.",

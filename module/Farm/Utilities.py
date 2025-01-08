@@ -26,3 +26,13 @@ def amortizedLoanPayment(principal, ratePerYear, totalPeriods, periodsPerYear=12
     else:
         poweredRate = pow(1.0 + ratePerPeriod, totalPeriods)
         return principal * ratePerPeriod * poweredRate / (poweredRate - 1.0)
+
+def smoothstep(a1, a2, value):
+    if a2 <= a1:
+        return 0.0
+    t = (value - a1) / (a2 - a1)
+    if t < 0.0:
+        t = 0.0
+    elif t > 1.0:
+        t = 1.0
+    return t * t * (3.0 - 2.0 * t)

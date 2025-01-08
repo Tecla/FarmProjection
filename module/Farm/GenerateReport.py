@@ -29,6 +29,7 @@ def GenerateReport(scenario):
     fixedAmortizationActive = True if currentYear <= amortizationYears else False
     root['Farm']['Acres needed'] = round(neededAcres(s), 1)
     root['Farm']['Irrigation in acre-feet'] = round(totalIrrigationWaterAcreFeet(s), 2)
+    root['Farm']['Desired irrigation in arcre-feet'] = round(desiredAdditionalIrrigationWaterAcreFeet(s), 2)
     root['Farm']['Soil productivity'] = '{}%'.format(round(soilProductivityProportion(s) * 100, 1))
     root['Farm']['Months on pasture'] = s.get('farm/pasture/months')
     root['Farm']['Fixed costs paid off'] = 'No' if fixedAmortizationActive else 'Yes'
