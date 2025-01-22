@@ -23,11 +23,15 @@ def GenerateReport(scenario):
     root['Employees'] = {}
     root['Income'] = {}
 
+    calculateMaxAcresAdjustment(s)
+
     # Farm report
     amortizationYears = s.get('farm/amortization years')
     currentYear = s.get('farm/years running')
     fixedAmortizationActive = True if currentYear <= amortizationYears else False
-    root['Farm']['Acres needed'] = round(neededAcres(s), 1)
+    root['Farm']['Acres needed'] = round(neededAcres(s, True), 1)
+    root['Farm']['Acres desired'] = round(neededAcres(s, False), 1)
+    root['Farm']['Hit acreage limit'] = 'Yes' if s.hasAcreLimit() and s.getDesiredAcres() >= s.getMaxAcres() else 'No'
     root['Farm']['Irrigation in acre-feet'] = round(totalIrrigationWaterAcreFeet(s), 2)
     root['Farm']['Desired irrigation in arcre-feet'] = round(desiredAdditionalIrrigationWaterAcreFeet(s), 2)
     root['Farm']['Soil productivity'] = '{}%'.format(round(soilProductivityProportion(s) * 100, 1))
@@ -38,7 +42,7 @@ def GenerateReport(scenario):
     # Livestock report
     animals = livestockList(s)
     root['Livestock']['Animals'] = animals
-    root['Livestock']['Total AUs'] = round(totalAUs(s), 1)
+    root['Livestock']['Total AUs'] = round(totalAUs(s, True), 1)
     root['Livestock']['Barn cost'] = dollars(barnCost(s))
     root['Livestock']['Barn sqft'] = round(barnSqft(s), 0)
     root['Livestock']['Fence cost'] = dollars(livestockFenceCost(s))
@@ -47,11 +51,11 @@ def GenerateReport(scenario):
     for a in animals:
         animal = a.title()
         root['Livestock'][animal] = {}
-        root['Livestock'][animal]['Head'] = livestockTotal(s, a)
-        root['Livestock'][animal]['AUs'] = round(perAnimalAUs(s, a), 1)
-        root['Livestock'][animal]['Acres'] = round(neededAcresByAnimal(s, a), 2)
-        root['Livestock'][animal]['Acres per animal'] = round(neededAcresByAnimal(s, a) / livestockTotal(s, a) if livestockTotal(s, a) > 0.0 else 0.0, 2)
-        root['Livestock'][animal]['Animals per acre'] = round(livestockTotal(s, a) / neededAcresByAnimal(s, a)  if neededAcresByAnimal(s, a) > 0.0 else 0.0, 2)
+        root['Livestock'][animal]['Head'] = "{}/{}".format(livestockTotal(s, a), livestockTotal(s, a, False))
+        root['Livestock'][animal]['AUs'] = round(perAnimalAUs(s, a, True), 1)
+        root['Livestock'][animal]['Acres'] = round(neededAcresByAnimal(s, a, True), 2)
+        root['Livestock'][animal]['Acres per animal'] = round(neededAcresByAnimal(s, a, True) / livestockTotal(s, a) if livestockTotal(s, a) > 0.0 else 0.0, 2)
+        root['Livestock'][animal]['Animals per acre'] = round(livestockTotal(s, a) / neededAcresByAnimal(s, a, True)  if neededAcresByAnimal(s, a, True) > 0.0 else 0.0, 2)
         root['Livestock'][animal]['Suggested paddocks'] = livestockPaddocks(s)
         root['Livestock'][animal]['Suggested paddock acres'] = round(livestockPaddockSize(s, a), 2)
         root['Livestock'][animal]['Premium hay tons needed'] = round(livestockHayTons(s, a, False), 2)

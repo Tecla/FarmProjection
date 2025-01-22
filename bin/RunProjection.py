@@ -23,6 +23,7 @@ if __name__ == "__main__":
     parser.add_argument('scenarios', nargs='*', default='', help="Scenario to run (in <datadir>/scenarios/<scenario>). Use 'all' or leave blank to run all scenarios.")
     parser.add_argument('--datadir', default='', help="Data directory location with common and scenarios subdirectories")
     parser.add_argument('--reportdir', default='', help="Location to write reports to. If not specified, reports are written to <datadir>/reports")
+    parser.add_argument('--maxacres', type=float, default=0.0, help="Maximum acres available (zero to disable limit). If max is reached, scale down number of livestock to fit and report that has happened.")
     parser.add_argument('--set', nargs=2, action='append', metavar=("INPUT", "VALUE"), help="Override a value from the scenario. The input is a path through the JSON values, e.g. structures/creamery/cost per sqft; so you may need to put the input path in quotes.")
     args = parser.parse_args()
 
@@ -31,7 +32,7 @@ if __name__ == "__main__":
     else:
         dataDir = os.path.realpath(args.datadir)
     defaultDataDir = os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), '..', 'default-data')
-    defaultScenario = Farm.Scenario(os.path.join(defaultDataDir, 'common'), os.path.join(defaultDataDir, 'scenarios', 'default'))
+    defaultScenario = Farm.Scenario(os.path.join(defaultDataDir, 'common'), os.path.join(defaultDataDir, 'scenarios', 'default'), 0.0)
 
     if not args.reportdir or len(args.reportdir) == 0:
         reportDir = os.path.join(dataDir, 'reports')
@@ -59,7 +60,7 @@ if __name__ == "__main__":
         else:
             print('')
 
-        scenario = Farm.Scenario(os.path.join(dataDir, 'common'), os.path.join(dataDir, 'scenarios', scenarioName), defaultScenario, args.set)
+        scenario = Farm.Scenario(os.path.join(dataDir, 'common'), os.path.join(dataDir, 'scenarios', scenarioName), args.maxacres, defaultScenario, args.set)
 
         report = Farm.GenerateReport(scenario)
         Farm.GenerateReportJson(report, os.path.join(reportDir, scenarioName + '.json'))

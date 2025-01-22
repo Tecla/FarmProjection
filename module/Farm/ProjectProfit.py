@@ -65,7 +65,9 @@ def ProjectProfit(scenario, scenarioName):
     print('')
     print('Scenario: {}'.format(scenarioName))
     print('')
-    print("Total acres needed: {}".format(round(neededAcres(s), 2)))
+    print("Total acres needed: {}".format(round(neededAcres(s, True), 2)))
+    print("Total acres desired: {}".format(round(neededAcres(s, False), 2)))
+    print("Hit acreage limit: {}".format('Yes' if s.hasAcreLimit() and s.getDesiredAcres() >= neededAcres(s, True) else 'No'))
     print('')
 
     butterLbs = 0

@@ -47,8 +47,10 @@ def prettyPrintDict(d, indent=0):
 
 class Scenario:
     # Overrides are a list of lists, like thus: [ [ 'path/to/some input', value ], [ 'path/to another', value ], ... ]
-    def __init__(self, commonDir, scenarioDir, defaultScenario=None, overrides=[]):
+    def __init__(self, commonDir, scenarioDir, maxAcres, defaultScenario=None, overrides=[]):
         self.defaultScenario = defaultScenario
+        self.maxAcres = maxAcres
+        self.desiredAcres = 0.0
         self.json = {}
         for file in os.listdir(commonDir):
             filename = os.path.join(commonDir, os.fsdecode(file))
@@ -78,6 +80,17 @@ class Scenario:
                 except:
                     self.set(override[0], override[1])
 
+    def hasAcreLimit(self):
+        return self.maxAcres > 0.0
+
+    def getMaxAcres(self):
+        return self.maxAcres
+
+    def getDesiredAcres(self):
+        return self.desiredAcres
+
+    def setDesiredAcres(self, acres):
+        self.desiredAcres = acres
 
     def getSub(self, pathArray, d, originalPath):
         if len(pathArray) == 0:
