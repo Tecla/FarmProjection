@@ -16,7 +16,7 @@ https://www.python.org/downloads/
 
 #### Linux and similar
 
-`python bin/RunProjection.py [<scenario1>] [<scenario2>] ... [--datadir <directory>] [--reportdir <directory>] [--set <input> <value>]...`
+`python bin/RunProjection.py [<scenario1>] [<scenario2>] ... [--datadir <directory>] [--reportdir <directory>] [--maxacres <acres>] [--set <input> <value>]...`
 
 #### Windows
 
@@ -24,11 +24,13 @@ Run the `RunProjection.bat` batch file, and modify it to suit your situation. It
 
 You may also run without the batch file:
 
-`python bin\RunProjection.py [<scenario1>] [<scenario2>] ... [--datadir <directory>] [--reportdir <directory>] [--set <input> <value>]...`
+`python bin\RunProjection.py [<scenario1>] [<scenario2>] ... [--datadir <directory>] [--reportdir <directory>] [--maxacres <acres>] [--set <input> <value>]...`
 
 ### Special arguments
 
 A special scenario named `all` can be specified, which will run all of the scenarios it can find in the `<datadir>/scenarios` subdirectory automatically and generate reports for each.
+
+A maximum acreage can be set, in which case it will reduce the number of animals to fit the maximum acreage if the limit is reached. Use `--maxacres <value>` to set the limit. A limit of zero disables it.
 
 You can override one or more input values with `--set <input path> <value>` and use that argument any number of times. For example, to override the "years running" value to be past the amortization years and see the projection out past when any fixed cost loans are paid off, you might add the following command-line option:
 
