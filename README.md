@@ -70,7 +70,7 @@ Each scenario combined with the common inputs describes multiple parts of the fa
 * `taxes.json`
   * USA-based tax rates and tables
 
-More will be added in the future. The current complete set of operational inputs are contained in the example scenarios, so to create your own you should copy an existing dataset and modify it to suit your own projections. Note that you do not have to provide every input in your scenario, it will fall back to a default (zero, empty) input if you omit one. Also note that an input can be provided in a JSON file common to all your scenarios, or it can be provided in each individual scenario, it doesn't matter which you choose. But currently you cannot provide an input in both locations without generating an error.
+More will be added in the future (see [below](#what-it-doesnt-do)). The current complete set of operational inputs are contained in the example scenarios, so to create your own you should copy an existing dataset and modify it to suit your own projections. Note that you do not have to provide every input in your scenario, it will fall back to a default (zero, empty) input if you omit one. Also note that an input can be provided in a JSON file common to all your scenarios, or it can be provided in each individual scenario, it doesn't matter which you choose. But currently you cannot provide an input in both locations without generating an error.
 
 Scenarios support adding multiple kinds of livestock. If one is added but zero animals are set for the input, the projection will flow through sans that animal type without issue.
 
@@ -109,3 +109,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” 
 ## Contributing
 
 Contributions, issues, etc to the project are welcome. You may be asked to assign copyright to Tecla if you contribute code or documentation or other resources. The only rule is that the project owner makes the rules, and there is no appeal from his decisions. Be humble, AKA don't be a dick, and all will go well for everyone.
+
+### Code of Ethics
+
+If you don't already know how to behave like a well-adjusted adult, and need a code of conduct or code of ethics to scratch that itch (beyond the contributions rules listed [above](#contributing)), then we urge you to adhere to the code of ethics provided by the [SQLite project](https://sqlite.org/codeofethics.html).
