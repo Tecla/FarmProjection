@@ -13,7 +13,8 @@ def desiredWaterInches(s):
     # The amount of water needed goes from zero at the beginning of the growing season to the peak holding
     # during all of July, and then tapers back down to zero again at the end of the growing season.
     # Pasture plants need about 0.1 inches of water per day for 70 degrees F or less during the peak,
-    # going up to about 0.3 inches/day at 100 F or more.
+    # going up to about 0.3 inches/day at 100 F or more. We model this with peak water use at 100 F as set
+    # by the user, and 1/3 of that use at 70 F.
     minInches = peakDailyInches / 3.0
     maxInches = peakDailyInches
     inchesPerDayProportion = (peakTemperature - 70.0) / (100.0 - 70.0)
@@ -27,20 +28,27 @@ def desiredWaterInches(s):
     return neededWaterInches
 
 def perAcreAUMs(s):
-    # "Enough" water for a productive pasture is defined as equivalent of 20 inches of precipitation
-    # This can be achieved by rain, snow, or irrigation
+    # "Enough" water for a productive pasture is based on the peak temperature
+    # and water use for the particular pasture species, about 0.2 to 0.3 inches
+    # of water per day at 100 F. We can calculate the optimal amount of water
+    # and then find how productive the pasture will be with the available water.
+    # The pasture fertility then factors in as well, and the combination will
+    # determine how many animal units we can have on an acre of pasture safely.
     precipitationInches = s.get('farm/pasture/precipitation inches per year')
     irrigationInches = s.get('farm/pasture/irrigation inches per year')
     totalInches = precipitationInches + irrigationInches
     fertilityProportion = s.get('farm/pasture/soil fertility')
 
-    # Forage production AUMs per year based on: https://extension.usu.edu/smallfarms/research/forage-needs
+    # Forage production AUMs per acre based on: https://extension.usu.edu/smallfarms/research/forage-needs
 
     # Up to 10 AUMs per acre on very fertile soil, up to about 5 on poor soil (fertility proportion 0.5)
     soilAUMs = 10.0 * fertilityProportion
     neededWaterInches = desiredWaterInches(s)
-    minimumWaterInches = neededWaterInches / 4.0
-    # Water AUMs multiplier ranges from about 0.0 at 'neededWaterInches'/4 inches of water per year to 1.0 at 'neededWaterInches' of water
+    # Water AUMs multiplier ranges from about 0.0 at 5 inches of water per year
+    # to 1.0 at 'neededWaterInches' of water. At 5 inches essentially nothing
+    # grows to support ruminants, or otherwise extreme amounts of rangeland are
+    # needed and is beyond the scope of this tool.
+    minimumWaterInches = 5.0
     waterAUMMod = smoothstep(minimumWaterInches, neededWaterInches, totalInches)
     if waterAUMMod < 0.0:
         waterAUMMod = 0.0
@@ -98,7 +106,6 @@ def neededAcres(s, adjustedForMaxAcres):
 # Find desired acreage and save it so adjusted acreage calculations succeed
 def calculateMaxAcresAdjustment(s):
     desiredAcres = neededAcres(s, False)
-    print("d: {}".format(desiredAcres))
     s.setDesiredAcres(desiredAcres)
 
 
@@ -122,17 +129,22 @@ def totalIrrigationWaterAcreFeet(s):
     irrigationInches = s.get('farm/pasture/irrigation inches per year')
     return totalAcres * irrigationInches / 12.0
 
-
-def desiredAdditionalIrrigationWaterAcreFeet(s):
+def desiredAdditionalIrrigationInches(s):
     precipitationInches = s.get('farm/pasture/precipitation inches per year')
     irrigationInches = s.get('farm/pasture/irrigation inches per year')
 
-    totalAcres = neededAcres(s, True)
     neededWaterInches = desiredWaterInches(s)
     remainingWaterInches = neededWaterInches - precipitationInches - irrigationInches
     if remainingWaterInches <= 0.0:
         remainingWaterInches = 0.0
-    return totalAcres * remainingWaterInches / 12.0
+    return remainingWaterInches
+
+def desiredAdditionalIrrigationWaterAcreFeet(s):
+    totalAcres = neededAcres(s, True)
+    return totalAcres * desiredAdditionalIrrigationInches(s) / 12.0
+
+def optimalWaterInches(s):
+    return desiredWaterInches(s)
 
 
 def livestockBeddingCost(s, animal):

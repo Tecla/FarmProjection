@@ -15,7 +15,8 @@ def mergeDict(a: dict, b: dict, dictionaryPath = []):
                 # Concatenate arrays with the same key
                 a[key] += b[key]
             elif a[key] != b[key]:
-                raise Exception('Dictionary merge conflict at ' + '.'.join(dictionaryPath + [ str(key) ]))
+                print("Scenario overrides {} from {} to {}".format('.'.join(dictionaryPath + [ str(key) ]), a[key], b[key]))
+                a[key] = b[key]
         else:
             a[key] = b[key]
     return a
@@ -153,7 +154,7 @@ class Scenario:
                 if not matcher.match(key):
                     continue
                 if len(pathArray) == 1:
-                    print("Value applied: '{}' at key '{}' to value: {}".format(originalPath, key, newValue))
+                    print("Override applied: '{}' at key '{}' to value: {}".format(originalPath, key, newValue))
                     d[key] = newValue
                     valueGotSet = True
                 elif isinstance(value, dict):

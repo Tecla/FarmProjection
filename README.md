@@ -70,7 +70,7 @@ Each scenario combined with the common inputs describes multiple parts of the fa
 * `taxes.json`
   * USA-based tax rates and tables
 
-More will be added in the future (see [below](#what-it-doesnt-do)). The current complete set of operational inputs are contained in the example scenarios, so to create your own you should copy an existing dataset and modify it to suit your own projections. You do not have to provide every input in your scenario, it will fall back to a default (zero, empty) input if you omit one. Note that an input can be provided in a JSON file common to all your scenarios, or it can be provided in each individual scenario, it doesn't matter which you choose. But currently you cannot provide an input in both locations without generating an error.
+More will be added in the future (see [below](#what-it-doesnt-do)). The current complete set of operational inputs are contained in the example scenarios, so to create your own you should copy an existing dataset and modify it to suit your own projections. You do not have to provide every input in your scenario, it will fall back to a default (zero, empty) input if you omit one. Note that an input can be provided in a JSON file common to all your scenarios and it can be provided in an individual scenario or both; the sceneario will override the common value if both are provided.
 
 Scenarios support adding multiple kinds of livestock. If one is added but zero animals are set for the input, the projection will flow through sans that animal type without issue.
 

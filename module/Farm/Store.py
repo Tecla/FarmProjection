@@ -110,5 +110,7 @@ def storeGrossIncomePerYear(s):
 
 
 def storeNetIncomePerYear(s):
+    # Except for third-party item profits, all the rest of the income is attributed
+    # to other parts of the farm. This net income will typically be very negative.
     storeEmployeeYearlyPay, storeEmployeeYearlyOverhead = storeEmployeeExpectedPayPerYear(s)
     return storeGrossIncomePerYear(s) - storeThirdPartyCostPerYear(s) - storeCommonCostPerYear(s) - storeEmployeeYearlyPay - storeEmployeeYearlyOverhead

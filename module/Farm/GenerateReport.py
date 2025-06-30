@@ -34,10 +34,12 @@ def GenerateReport(scenario):
     root['Farm']['Hit acreage limit'] = 'Yes' if s.hasAcreLimit() and s.getDesiredAcres() >= s.getMaxAcres() else 'No'
     root['Farm']['Irrigation in acre-feet'] = round(totalIrrigationWaterAcreFeet(s), 2)
     root['Farm']['Desired irrigation in arcre-feet'] = round(desiredAdditionalIrrigationWaterAcreFeet(s), 2)
-    root['Farm']['Soil productivity'] = '{}%'.format(round(soilProductivityProportion(s) * 100, 1))
+    root['Farm']['Desired irrigation in inches per year'] = round(desiredAdditionalIrrigationInches(s), 2)
+    root['Farm']['Optimal inches of water per year'] = round(optimalWaterInches(s), 2)
+    root['Farm']['Pasture productivity'] = '{}%'.format(round(soilProductivityProportion(s) * 100, 1))
     root['Farm']['Months on pasture'] = s.get('farm/pasture/months')
     root['Farm']['Fixed costs paid off'] = 'No' if fixedAmortizationActive else 'Yes'
-    root['Farm']['Fixed costs year'] = '{} of {}'.format(currentYear, amortizationYears)
+    root['Farm']['Fixed costs year'] = '{} of {}'.format(int(round(currentYear, 0)), amortizationYears)
 
     # Livestock report
     animals = livestockList(s)
@@ -156,8 +158,9 @@ def GenerateReport(scenario):
     root['Store']['Common cost per year'] = dollars(storeCommonCostPerYear(s))
     root['Store']['Third party items cost per year'] = dollars(storeThirdPartyCostPerYear(s))
     root['Store']['Third party items income per year'] = dollars(storeThirdPartyIncomePerYear(s))
-    root['Store']['Store gross income per year'] = dollars(storeGrossIncomePerYear(s))
-    root['Store']['Store net income per year'] = dollars(storeNetIncomePerYear(s))
+    root['Store']['Store-only gross income per year'] = dollars(storeGrossIncomePerYear(s))
+    # This always reports a scary negative number due to profit being attributed elsewhere, so it isn't very helpful
+#    root['Store']['Store-only net income per year'] = dollars(storeNetIncomePerYear(s))
     root['Store']['Hours per year'] = rounded(storeHoursPerYear(s), 0)
     root['Store']['Employee hours per year'] = rounded(storeEmployeeHoursPerYear(s), 0)
     root['Store']['Employee hours per week'] = rounded(storeEmployeeHoursPerWeek(s), 2)
@@ -262,19 +265,61 @@ def GenerateReportHtml(reportRoot, outputHtmlFile, scenarioName):
         head = ET.SubElement(html, 'head')
         style = ET.SubElement(head, 'style')
         style.text = """
+# Dark mode
+#body {
+#    background-color: #111821;
+#    color: #FFFFF0;
+#}
+
+.title {
+    text-align:center;
+}
+
 table, th, td {
     border-collapse: collapse;
     border: 0px;
 }
 th, td {
-    padding: 3px;
+    padding: 4px;
 }
 th {
     text-align: right;
 }
+
+table.subgroup-element {
+    border:1px dotted;
+}
+
+.element-row {
+    font-size:120%;
+}
+
+tr.group-row {
+    border-bottom:1px dashed;
+}
+
+tr.subgroup-element-row {
+    border-top:1px dotted gray;
+}
+
+th.group-title-header {
+    background-color: rgba(150, 212, 212, 0.5);
+    text-align:center;
+}
+
+th.subgroup-title-header {
+    background-color: rgba(212, 150, 212, 0.5);
+    text-align:center;
+    font-size:120%;
+}
+
+#tr.subgroup-element-row:nth-child(even) {
+#  background-color: rgba(255, 255, 150, 0.4);
+#}
 """
         body = ET.SubElement(html, 'body')
         title = ET.SubElement(body, 'h1')
+        title.set('class', 'title')
         title.text = "Projection Report: {}".format(scenarioName)
         rootTable = ET.SubElement(body, 'table')
 
@@ -282,42 +327,56 @@ th {
             if not isinstance(group, dict):
                 continue
             groupRow = ET.SubElement(rootTable, 'tr')
+            groupRow.set('class', 'group-row')
             groupTitleHeader = ET.SubElement(groupRow, 'th')
+            groupTitleHeader.set('class', 'group-title-header')
             groupTitle = ET.SubElement(groupTitleHeader, 'h2')
             groupTitle.text = groupName
             groupData = ET.SubElement(groupRow, 'td')
+            groupData.set('class', 'group-entry')
             groupTable = ET.SubElement(groupData, 'table')
-            groupTable.set('style', 'border:1px solid;')
+            groupTable.set('class', 'group')
             groupSubgroupsRow = None
             for groupElementName, groupElement in group.items():
                 if not isinstance(groupElement, dict):
                     groupElementRow = ET.SubElement(groupTable, 'tr')
+                    groupElementRow.set('class', 'element-row')
                     groupElementTitle = ET.SubElement(groupElementRow, 'th')
+                    groupElementTitle.set('class', 'element-title-header')
                     groupElementTitle.text = groupElementName
                     groupElementData = ET.SubElement(groupElementRow, 'td')
                     if isinstance(groupElement, list):
+                        groupElementData.set('class', 'element-entry')
                         listElement = ET.SubElement(groupElementData, 'ul')
+                        listElement.set('class', 'group-element-list')
                         for item in groupElement:
                             listItem = ET.SubElement(listElement, 'li')
                             listItem.text = item
                     else:
+                        groupElementData.set('class', 'element-text')
                         groupElementData.text = str(groupElement)
                 else:
                     if not groupSubgroupsRow:
                         groupSubgroupsRow = ET.SubElement(groupTable, 'tr')
+                        groupSubgroupsRow.set('class', 'subgroup-row')
                     groupElementData = ET.SubElement(groupSubgroupsRow, 'td')
                     groupElementTitleHeader = ET.SubElement(groupElementData, 'th')
+                    groupElementTitleHeader.set('class', 'subgroup-title-header')
                     groupElementTitle = ET.SubElement(groupElementTitleHeader, 'h3')
                     groupElementTitle.text = groupElementName
                     subgroupElementData = ET.SubElement(groupElementData, 'td')
+                    subgroupElementData.set('class', 'subgroup-entry')
                     subgroupElementTable = ET.SubElement(subgroupElementData, 'table')
-                    subgroupElementTable.set('style', 'border:1px dotted;')
+                    subgroupElementTable.set('class', 'subgroup')
                     for subgroupElementName, subgroupElement in groupElement.items():
                         subgroupElementRow = ET.SubElement(subgroupElementTable, 'tr')
+                        subgroupElementRow.set('class', 'subgroup-element-row')
                         subgroupElementTitle = ET.SubElement(subgroupElementRow, 'th')
+                        subgroupElementTitle.set('class', 'subgroup-element-title-header')
                         subgroupElementTitle.text = subgroupElementName
-                        subgroupElementData = ET.SubElement(subgroupElementRow, 'td')
-                        subgroupElementData.text = str(subgroupElement)
+                        subgroupElementRowData = ET.SubElement(subgroupElementRow, 'td')
+                        subgroupElementRowData.set('class', 'subgroup-element-entry')
+                        subgroupElementRowData.text = str(subgroupElement)
 
         xmlDom = xml.dom.minidom.parseString(ET.tostring(html, method='html').decode('utf-8'))
         outputFile.write("<!DOCTYPE html>\n");
